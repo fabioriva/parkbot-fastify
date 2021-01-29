@@ -1,6 +1,7 @@
 const fastify = require('fastify')({ logger: { name: 'daman' } })
-const commN = require('../../lib/comm')
-const commS = require('../../lib/comm')
+const snap7 = require('node-snap7')
+const comm = require('./comm')
+// const commS = require('./comm')
 const s7def = require('./definitions')
 const s7obj = require('./entities')
 const websocket = require('../../lib/websocket')
@@ -91,35 +92,41 @@ async function update (n, s, wss) {
 //   }
 // }
 
-async function plcN (wss) {
+async function plcN (n, s, wss) {
   const { PLC_N, PLC_S } = s7def
   try {
-    PLC_N.isOnline = await commN.connectTo(PLC_N)
-    PLC_S.isOnline = await commS.connectTo(PLC_S)
+    PLC_N.isOnline = await comm.connectTo(n, PLC_N)
+    PLC_S.isOnline = await comm.connectTo(s, PLC_S)
     setTimeout(async function forever () {
       if (PLC_N.isOnline) {
-        const n = await commN.readArea(
+        const bn = await comm.readArea(
+          n,
           0x84,
           s7def.DB_MONITOR,
           s7def.DB_MONITOR_INIT,
           s7def.DB_MONITOR_LEN,
           0x02
         )
-        const s = await commS.readArea(
+        console.log(bn)
+        const bs = await comm.readArea(
+          s,
           0x84,
           s7def.DB_MONITOR,
           s7def.DB_MONITOR_INIT,
           s7def.DB_MONITOR_LEN,
           0x02
         )
-        update(n, s, wss)
+        console.log(bs)
+        update(bn, bs, wss)
       } else {
-        PLC_N.isOnline = commN.connect(PLC_N)
+        PLC_N.isOnline = comm.connect(n, PLC_N)
+        PLC_S.isOnline = comm.connect(s, PLC_S)
       }
       setTimeout(forever, PLC_N.polling_time)
     }, PLC_N.polling_time)
   } catch (err) {
-    PLC_N.isOnline = commN.s7Error(err)
+    PLC_N.isOnline = comm.s7Error(n, err)
+    PLC_S.isOnline = comm.s7Error(s, err)
   }
 }
 
@@ -130,7 +137,9 @@ const main = async () => {
     /**
      * PLC comm
      */
-    await plcN(wss)
+    const n = new snap7.S7Client()
+    const s = new snap7.S7Client()
+    await plcN(n, s, wss)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)
