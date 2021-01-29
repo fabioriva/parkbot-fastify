@@ -9,7 +9,7 @@ fastify.register(require('fastify-cors'), {
   origin: '*'
 })
 
-fastify.get('/api/daman/monitor', async (request, reply) => {
+fastify.get('/aps/daman/monitor', async (request, reply) => {
   return { monitor: s7obj.monitor }
 })
 

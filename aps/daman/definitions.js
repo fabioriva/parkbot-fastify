@@ -1,6 +1,5 @@
 exports.APS = 'daman'
-exports.HTTP = 8090
-exports.PORT = 49009
+exports.HTTP = 5001
 exports.HOST = process.env.DEVELOPMENT_SERVER
 exports.PLC_N = {
   ip: '140.80.24.2',
