@@ -1,0 +1,33 @@
+{
+  "name": "parkbot-api",
+  "version": "1.0.0",
+  "description": "parkbot, backend",
+  "scripts": {
+    "test": "standard",
+    "dev": "nodemon",
+    "daman": "nodemon aps/daman/monitor.js",
+    "wallstreet": "nodemon aps/wallstreet",
+    "wareham": "nodemon aps/wareham"
+  },
+  "author": "f.riva@sotefin.ch",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
+    "fastify": "^3.11.0",
+    "fastify-cors": "^5.2.0",
+    "fastify-mongodb": "^2.0.1",
+    "mongodb": "^3.6.3",
+    "node-snap7": "^1.0.5",
+    "ws": "^7.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6",
+    "standard": "^16.0.3"
+  },
+  "standard": {
+    "ignore": [
+      "/public"
+    ]
+  }
+}
