@@ -1,145 +1,98 @@
 const fastify = require('fastify')({ logger: { name: 'daman' } })
 const snap7 = require('node-snap7')
 const comm = require('./comm')
-// const commS = require('./comm')
 const s7def = require('./definitions')
 const s7obj = require('./entities')
 const websocket = require('../../lib/websocket')
 
+/**
+ * Enable CORS
+ */
 fastify.register(require('fastify-cors'), {
   origin: '*'
 })
-
-fastify.get('/aps/daman/monitor', async (request, reply) => {
+/**
+ * Dev url: /api/daman/monitor
+ * Production url: /aps/daman/monitor
+ */
+fastify.get('/api/daman/monitor', async (request, reply) => {
   return { monitor: s7obj.monitor }
 })
 
-async function update (n, s, wss) {
+async function update (buffer, monitor) {
   try {
-    /**
-     * North
-     */
-    s7obj.monitor.el01 = n.readInt16BE(0)
-    s7obj.monitor.tt01 = n.readInt16BE(2)
-    s7obj.monitor.el02 = n.readInt16BE(4)
-    s7obj.monitor.tt02 = n.readInt16BE(6)
-    s7obj.monitor.el03 = n.readInt16BE(8)
-    s7obj.monitor.tt03 = n.readInt16BE(10)
-    s7obj.monitor.el04 = n.readInt16BE(12)
-    s7obj.monitor.tt04 = n.readInt16BE(14)
-    s7obj.monitor.el05 = n.readInt16BE(16)
-    s7obj.monitor.tt05 = n.readInt16BE(18)
-    s7obj.monitor.qq01 = n.readInt16BE(20)
-    s7obj.monitor.qq02 = n.readInt16BE(22)
-    s7obj.monitor.qq03 = n.readInt16BE(24)
-    s7obj.monitor.qq04 = n.readInt16BE(26)
-    s7obj.monitor.qq05 = n.readInt16BE(28)
-    s7obj.monitor.qq06 = n.readInt16BE(30)
-    s7obj.monitor.qq07 = n.readInt16BE(32)
-    s7obj.monitor.qq08 = n.readInt16BE(34)
-    s7obj.monitor.qq09 = n.readInt16BE(36)
-    s7obj.monitor.qq10 = n.readInt16BE(38)
-    /**
-     * South
-     */
-    s7obj.monitor.el06 = s.readInt16BE(0)
-    s7obj.monitor.tt06 = s.readInt16BE(2)
-    s7obj.monitor.el07 = s.readInt16BE(4)
-    s7obj.monitor.tt07 = s.readInt16BE(6)
-    s7obj.monitor.el08 = s.readInt16BE(8)
-    s7obj.monitor.tt08 = s.readInt16BE(10)
-    s7obj.monitor.el09 = s.readInt16BE(12)
-    s7obj.monitor.tt09 = s.readInt16BE(14)
-    s7obj.monitor.el10 = s.readInt16BE(16)
-    s7obj.monitor.tt10 = s.readInt16BE(18)
-    s7obj.monitor.qq11 = s.readInt16BE(20)
-    s7obj.monitor.qq12 = s.readInt16BE(22)
-    s7obj.monitor.qq13 = s.readInt16BE(24)
-    s7obj.monitor.qq14 = s.readInt16BE(26)
-    s7obj.monitor.qq15 = s.readInt16BE(28)
-    s7obj.monitor.qq16 = s.readInt16BE(30)
-    s7obj.monitor.qq17 = s.readInt16BE(32)
-    s7obj.monitor.qq18 = s.readInt16BE(34)
-    s7obj.monitor.qq19 = s.readInt16BE(36)
-    s7obj.monitor.qq20 = s.readInt16BE(38)
+    monitor.el01 = buffer.readInt16BE(0)
+    monitor.tt01 = buffer.readInt16BE(2)
+    monitor.el02 = buffer.readInt16BE(4)
+    monitor.tt02 = buffer.readInt16BE(6)
+    monitor.el03 = buffer.readInt16BE(8)
+    monitor.tt03 = buffer.readInt16BE(10)
+    monitor.el04 = buffer.readInt16BE(12)
+    monitor.tt04 = buffer.readInt16BE(14)
+    monitor.el05 = buffer.readInt16BE(16)
+    monitor.tt05 = buffer.readInt16BE(18)
+    monitor.qq01 = buffer.readInt16BE(20)
+    monitor.qq02 = buffer.readInt16BE(22)
+    monitor.qq03 = buffer.readInt16BE(24)
+    monitor.qq04 = buffer.readInt16BE(26)
+    monitor.qq05 = buffer.readInt16BE(28)
+    monitor.qq06 = buffer.readInt16BE(30)
+    monitor.qq07 = buffer.readInt16BE(32)
+    monitor.qq08 = buffer.readInt16BE(34)
+    monitor.qq09 = buffer.readInt16BE(36)
+    monitor.qq10 = buffer.readInt16BE(38)
   } catch (error) {
-    console.log(error)
-  } finally {
-    wss.broadcast('ch1', { monitor: s7obj.monitor })
+    fastify.log.error(error)
   }
 }
 
-// async function plc (comm, plc, wss) {
-//   try {
-//     plc.isOnline = await comm.connectTo(plc)
-//     setTimeout(async function forever () {
-//       if (plc.isOnline) {
-//         const buffer = await comm.readArea(
-//           0x84,
-//           s7def.DB_MONITOR,
-//           s7def.DB_MONITOR_INIT,
-//           s7def.DB_MONITOR_LEN,
-//           0x02
-//         )
-//         // update(n, s, wss)
-//       } else {
-//         plc.isOnline = comm.connect(plc)
-//       }
-//       setTimeout(forever, plc.polling_time)
-//     }, plc.polling_time)
-//   } catch (err) {
-//     plc.isOnline = commN.s7Error(err)
-//   }
-// }
-
-async function plcN (n, s, wss) {
-  const { PLC_N, PLC_S } = s7def
+async function plc (client, plc, monitor) {
   try {
-    PLC_N.isOnline = await comm.connectTo(n, PLC_N)
-    PLC_S.isOnline = await comm.connectTo(s, PLC_S)
+    plc.isOnline = await comm.connectTo(client, plc)
     setTimeout(async function forever () {
-      if (PLC_N.isOnline) {
-        const bn = await comm.readArea(
-          n,
+      if (plc.isOnline) {
+        const buffer = await comm.readArea(
+          client,
           0x84,
           s7def.DB_MONITOR,
           s7def.DB_MONITOR_INIT,
           s7def.DB_MONITOR_LEN,
           0x02
         )
-        console.log(bn)
-        const bs = await comm.readArea(
-          s,
-          0x84,
-          s7def.DB_MONITOR,
-          s7def.DB_MONITOR_INIT,
-          s7def.DB_MONITOR_LEN,
-          0x02
-        )
-        console.log(bs)
-        update(bn, bs, wss)
+        update(buffer, monitor)
       } else {
-        PLC_N.isOnline = comm.connect(n, PLC_N)
-        PLC_S.isOnline = comm.connect(s, PLC_S)
+        plc.isOnline = comm.connect(plc)
       }
-      setTimeout(forever, PLC_N.polling_time)
-    }, PLC_N.polling_time)
+      setTimeout(forever, plc.polling_time)
+    }, plc.polling_time)
   } catch (err) {
-    PLC_N.isOnline = comm.s7Error(n, err)
-    PLC_S.isOnline = comm.s7Error(s, err)
+    plc.isOnline = comm.s7Error(client, err)
   }
 }
 
 const main = async () => {
   try {
-    const wss = websocket('/ws/daman', fastify)
     await fastify.listen(s7def.HTTP)
     /**
-     * PLC comm
+     * PLC comm (North Side)
      */
-    const n = new snap7.S7Client()
-    const s = new snap7.S7Client()
-    await plcN(n, s, wss)
+    const north = new snap7.S7Client()
+    await plc(north, s7def.PLC_N, s7obj.north)
+    /**
+     * PLC comm (South Side)
+     */
+    const south = new snap7.S7Client()
+    await plc(south, s7def.PLC_S, s7obj.south)
+    /**
+     * Forever
+     */
+    const wss = websocket('/ws/daman', fastify)
+    setTimeout(function forever () {
+      s7obj.monitor.north = s7obj.north
+      s7obj.monitor.south = s7obj.south
+      wss.broadcast('ch1', { monitor: s7obj.monitor })
+      setTimeout(forever, 1000)
+    }, 1000)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)

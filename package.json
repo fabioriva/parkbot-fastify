@@ -7,7 +7,8 @@
     "dev": "nodemon",
     "daman": "nodemon aps/daman/monitor.js",
     "wallstreet": "nodemon aps/wallstreet",
-    "wareham": "nodemon aps/wareham"
+    "wareham": "nodemon aps/wareham",
+    "washingtonblvd": "nodemon aps/washingtonblvd"
   },
   "author": "f.riva@sotefin.ch",
   "license": "ISC",
@@ -26,8 +27,6 @@
     "standard": "^16.0.3"
   },
   "standard": {
-    "ignore": [
-      "/public"
-    ]
+    "ignore": ["/public"]
   }
 }

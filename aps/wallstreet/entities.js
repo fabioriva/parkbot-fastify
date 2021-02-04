@@ -392,7 +392,7 @@ const EVT1 = {
     inputs.find(b => b.addr === 'E103.3'),
     outputs.find(b => b.addr === 'A100.7'),
     outputs.find(b => b.addr === 'A100.6'),
-    merkers.find(b => b.addr === 'E112.3'),
+    inputs.find(b => b.addr === 'E112.3'),
     merkers.find(b => b.addr === 'M0.1'),
     merkers.find(b => b.addr === 'M0.2')
   ],
@@ -433,7 +433,7 @@ const EVT2 = {
     inputs.find(b => b.addr === 'E203.3'),
     outputs.find(b => b.addr === 'A200.7'),
     outputs.find(b => b.addr === 'A200.6'),
-    merkers.find(b => b.addr === 'E212.3'),
+    inputs.find(b => b.addr === 'E212.3'),
     merkers.find(b => b.addr === 'M0.2'),
     merkers.find(b => b.addr === 'M0.3')
   ],
@@ -474,7 +474,7 @@ const EVT3 = {
     inputs.find(b => b.addr === 'E303.3'),
     outputs.find(b => b.addr === 'A300.7'),
     outputs.find(b => b.addr === 'A300.6'),
-    merkers.find(b => b.addr === 'E312.3'),
+    inputs.find(b => b.addr === 'E312.3'),
     merkers.find(b => b.addr === 'M0.4'),
     merkers.find(b => b.addr === 'M0.5')
   ],
@@ -515,7 +515,7 @@ const IVT1 = {
     inputs.find(b => b.addr === 'E401.3'),
     outputs.find(b => b.addr === 'A400.7'),
     outputs.find(b => b.addr === 'A400.6'),
-    merkers.find(b => b.addr === 'E412.3'),
+    inputs.find(b => b.addr === 'E412.3'),
     merkers.find(b => b.addr === 'M1.0'),
     merkers.find(b => b.addr === 'M1.1')
   ],
@@ -545,7 +545,7 @@ const IVT2 = {
     inputs.find(b => b.addr === 'E501.3'),
     outputs.find(b => b.addr === 'A500.7'),
     outputs.find(b => b.addr === 'A500.6'),
-    merkers.find(b => b.addr === 'E512.3'),
+    inputs.find(b => b.addr === 'E512.3'),
     merkers.find(b => b.addr === 'M1.2'),
     merkers.find(b => b.addr === 'M1.3')
   ],
@@ -575,7 +575,7 @@ const IVT3 = {
     inputs.find(b => b.addr === 'E601.3'),
     outputs.find(b => b.addr === 'A600.7'),
     outputs.find(b => b.addr === 'A600.6'),
-    merkers.find(b => b.addr === 'E612.3'),
+    inputs.find(b => b.addr === 'E612.3'),
     merkers.find(b => b.addr === 'M1.4'),
     merkers.find(b => b.addr === 'M1.5')
   ],

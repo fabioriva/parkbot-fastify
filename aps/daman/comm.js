@@ -1,8 +1,5 @@
 const logger = require('pino')({ name: 'comm' })
-// const snap7 = require('node-snap7')
 const util = require('util')
-
-// const s7client = new snap7.S7Client()
 
 exports.s7Error = (client, error) => {
   logger.error('s7 comm error %s', client.ErrorText(error))
