@@ -6,6 +6,7 @@
     "test": "standard",
     "dev": "nodemon",
     "daman": "nodemon aps/daman/monitor.js",
+    "matalon": "nodemon aps/matalon",
     "wallstreet": "nodemon aps/wallstreet",
     "wareham": "nodemon aps/wareham",
     "washingtonblvd": "nodemon aps/washingtonblvd"
@@ -13,20 +14,22 @@
   "author": "f.riva@sotefin.ch",
   "license": "ISC",
   "dependencies": {
-    "date-fns": "^2.16.1",
+    "date-fns": "^2.17.0",
     "dotenv": "^8.2.0",
-    "fastify": "^3.11.0",
+    "fastify": "^3.12.0",
     "fastify-cors": "^5.2.0",
     "fastify-mongodb": "^2.0.1",
-    "mongodb": "^3.6.3",
+    "mongodb": "^3.6.4",
     "node-snap7": "^1.0.5",
-    "ws": "^7.4.2"
+    "ws": "^7.4.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6",
+    "nodemon": "^2.0.7",
     "standard": "^16.0.3"
   },
   "standard": {
-    "ignore": ["/public"]
+    "ignore": [
+      "/public"
+    ]
   }
 }
