@@ -271,8 +271,39 @@ for (let q = 0; q < s7def.QUEUE; q++) {
 }
 exports.exitQueue = exitQueue
 
-const { EL1 } = require('./devices/el1')
-const { T1 } = require('./devices/t1')
+// const { EL1 } = require('./devices/el1')
+// const { T1 } = require('./devices/t1')
+
+const T1 = {
+  a: devices[0],
+  b: positions.slice(0, 4),
+  c: [
+    inputs.find(b => b.addr === 'E401.3'),
+    outputs.find(b => b.addr === 'A412.7'),
+    outputs.find(b => b.addr === 'A412.6'),
+    inputs.find(b => b.addr === 'E412.3'),
+    merkers.find(b => b.addr === 'M0.1'),
+    merkers.find(b => b.addr === 'M0.2')
+  ],
+  d: [],
+  e: [
+    inputs.find(b => b.addr === 'E412.0'),
+    inputs.find(b => b.addr === 'E412.1'),
+    inputs.find(b => b.addr === 'E412.2'),
+    inputs.find(b => b.addr === 'E412.3'),
+    inputs.find(b => b.addr === 'E412.4'),
+    inputs.find(b => b.addr === 'E412.5'),
+    inputs.find(b => b.addr === 'E412.6'),
+    inputs.find(b => b.addr === 'E412.7'),
+    outputs.find(b => b.addr === 'A401.1'), // T2
+    outputs.find(b => b.addr === 'A411.2'), // TRA
+    outputs.find(b => b.addr === 'A411.3'), // TRB
+    outputs.find(b => b.addr === 'A411.4'), // KCS
+    outputs.find(b => b.addr === 'A411.5'), // KCV
+    outputs.find(b => b.addr === 'A411.6') // KCH
+  ],
+  f: []
+}
 
 const T2 = {
   a: devices[1],
@@ -333,6 +364,22 @@ const T3 = {
     outputs.find(b => b.addr === 'A611.5'), // KCV
     outputs.find(b => b.addr === 'A611.6') // KCH
   ],
+  f: []
+}
+
+const EL1 = {
+  a: devices[3],
+  b: positions.slice(12, 14),
+  c: [
+    inputs.find(b => b.addr === 'E103.3'),
+    outputs.find(b => b.addr === 'A100.7'),
+    outputs.find(b => b.addr === 'A100.6'),
+    merkers.find(b => b.addr === 'M1.0'),
+    merkers.find(b => b.addr === 'M1.1'),
+    merkers.find(b => b.addr === 'M1.2')
+  ],
+  d: [],
+  e: [],
   f: []
 }
 

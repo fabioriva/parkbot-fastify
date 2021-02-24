@@ -88,8 +88,8 @@ const main = async () => {
      */
     const wss = websocket('/ws/daman', fastify)
     setTimeout(function forever () {
-      s7obj.monitor.north = s7obj.north
-      s7obj.monitor.south = s7obj.south
+      // s7obj.monitor.north = s7obj.north
+      // s7obj.monitor.south = s7obj.south
       wss.broadcast('ch1', { monitor: s7obj.monitor })
       setTimeout(forever, 1000)
     }, 1000)
