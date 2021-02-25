@@ -3,7 +3,7 @@ exports.HTTP = 8092
 exports.PORT = 49012
 exports.HOST = process.env.DEVELOPMENT_SERVER
 exports.PLC = {
-  ip: '192.168.61.2',
+  ip: '192.168.200.55', // 61.2',
   rack: 0,
   slot: 1,
   polling_time: 300
@@ -58,3 +58,10 @@ exports.DBS_ALARM = [
   DB_ALARM_5,
   DB_ALARM_6
 ]
+
+/**
+ * Monitor service
+ */
+exports.DB_MONITOR = 828
+exports.DB_MONITOR_INIT = 0
+exports.DB_MONITOR_LEN = 30
