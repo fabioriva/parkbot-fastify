@@ -30,6 +30,10 @@ generateBits('A', 610, 613, 'outputs10')
 
 generateBits('M', 0, 7, 'merkers1')
 
+generateBits('PN', 0, 7, 'nodes')
+
+generateBits('MT', 0, 15, 'motors')
+
 function generateBits (type, min, max, name) {
   fs.appendFileSync(FILE, `exports.${name} = [\r\n`)
   for (let e = min; e <= max; e++) {

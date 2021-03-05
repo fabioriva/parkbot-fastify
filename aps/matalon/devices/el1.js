@@ -89,5 +89,3 @@ const EL1 = {
 }
 
 exports.EL1 = EL1
-
-console.log(lock1)

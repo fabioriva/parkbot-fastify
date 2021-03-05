@@ -88,7 +88,7 @@ const main = async () => {
   try {
     await fastify.listen(s7def.HTTP)
     /**
-     * PLC comm (North Side)
+     * PLC comm
      */
     const cpu = new snap7.S7Client()
     await plc(cpu, s7def.PLC, monitor)

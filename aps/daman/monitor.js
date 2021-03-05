@@ -11,11 +11,7 @@ const websocket = require('../../lib/websocket')
 fastify.register(require('fastify-cors'), {
   origin: '*'
 })
-/**
- * Dev url: /api/daman/monitor
- * Production url: /aps/daman/monitor
- */
-fastify.get('/api/daman/monitor', async (request, reply) => {
+fastify.get('/aps/daman/monitor', async (request, reply) => {
   return { monitor: s7obj.monitor }
 })
 

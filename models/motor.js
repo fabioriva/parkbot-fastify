@@ -32,27 +32,22 @@ class Motor extends EventEmitter {
   //   }
   // }
 
-  motion_ (mesg0, mesg1, mesg2) {
-    const { m1, m2, enb, bwd, fwd } = this
+  diagnostic_ () {
+    const { enb, bwd, fwd } = this
 
-    if (!m1.status && !m2.status) {
-      this.motion = mesg0
-    } else if (m1.status && !m2.status) {
-      this.motion = mesg1
-    } else if (m2.status && !m1.status) {
-      this.motion = mesg2
-    } else {
-      this.motion = 'motion-err'
-      if (m1.status !== m1.flag || m2.status !== m2.flag) {
-        this.diagnostic('diag-01')
+    this.args.forEach(arg => {
+      if (!arg.status && !arg.flag) {
+        if (!enb.status && bwd.status ^ fwd.status) {
+          arg.flag = true
+          this.diagnostic('diag-02:' + arg.addr)
+        }
+      } else if (arg.status || enb.status) {
+        arg.flag = false
       }
-    }
+    })
 
-    if (m1.flag !== m1.status) {
-      m1.flag = m1.status
-    }
-    if (m2.flag !== m2.status) {
-      m2.flag = m2.status
+    if (enb.status) {
+      this.active = []
     }
 
     // this.args.forEach(arg => {
@@ -73,17 +68,6 @@ class Motor extends EventEmitter {
      * If all operands have been evaluated (i.e. all were false), returns the last operand.
      */
 
-    this.args.forEach(arg => {
-      if (!arg.status && !arg.flag) {
-        if (!enb.status && bwd.status ^ fwd.status) {
-          arg.flag = true
-          this.diagnostic('diag-02:' + arg.addr)
-        }
-      } else if (arg.status || enb.status) {
-        arg.flag = false
-      }
-    })
-
     // if ((bwd.status || fwd.status) && !enb.status) {
     //   this.args.forEach(arg => {
     //     if (!arg.status && !arg.flag) {
@@ -97,6 +81,30 @@ class Motor extends EventEmitter {
     //     arg.flag = false
     //   }
     // })
+  }
+
+  motion_ (mesg0, mesg1, mesg2) {
+    const { m1, m2 } = this
+
+    if (!m1.status && !m2.status) {
+      this.motion = mesg0
+    } else if (m1.status && !m2.status) {
+      this.motion = mesg1
+    } else if (m2.status && !m1.status) {
+      this.motion = mesg2
+    } else {
+      this.motion = 'motion-err'
+      if (m1.status !== m1.flag || m2.status !== m2.flag) {
+        this.diagnostic('diag-01')
+      }
+    }
+
+    if (m1.flag !== m1.status) {
+      m1.flag = m1.status
+    }
+    if (m2.flag !== m2.status) {
+      m2.flag = m2.status
+    }
   }
 
   position_ (mesg0, mesg1, mesg2) {
@@ -177,6 +185,7 @@ class Flap extends Motor {
 class Lock extends Motor {
   // constructor (name, p1, p2, m1, m2, enb, bwd, fwd) {
   //   super(name, p1, p2, m1, m2, enb, bwd, fwd)
+  //   this.name = 'motor-flap'
   //   this.locked = Boolean(0)
   //   this.unlocked = Boolean(0)
   // }

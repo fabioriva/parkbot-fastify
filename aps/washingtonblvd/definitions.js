@@ -1,20 +1,22 @@
-exports.APS = 'washingthonblvd'
+exports.APS = 'washingtonblvd'
 exports.HTTP = 8092
 exports.PORT = 49012
 exports.HOST = process.env.DEVELOPMENT_SERVER
 exports.PLC = {
-  ip: '192.168.200.55', // 61.2',
+  ip: '192.168.61.2',
   rack: 0,
   slot: 1,
   polling_time: 300
 }
 
 exports.DEVICES = 6
+exports.DRIVES = 9
 exports.POSITIONS = 18
 exports.QUEUE = 5
 exports.AB = 36
 exports.EB = 66
 exports.MB = 8
+exports.PN = 8 // Profinet nodes
 
 const CARDS = 212
 const CARD_LEN = 10
@@ -33,12 +35,15 @@ exports.DB_MAP_LEN = STALLS * STALL_LEN
 exports.DB_DATA = 505
 exports.DB_DATA_INIT = 0
 exports.DB_DATA_INIT_DEVICE = 32
-exports.DB_DATA_INIT_POS = 128
-exports.DB_DATA_INIT_QUEUE = 200
-exports.DB_DATA_INIT_AB = 220
-exports.DB_DATA_INIT_EB = 260
-exports.DB_DATA_INIT_MB = 312
-exports.DB_DATA_LEN = 320
+exports.DB_DATA_INIT_DRIVE = 128
+exports.DB_DATA_INIT_POS = 218
+exports.DB_DATA_INIT_QUEUE = 290
+exports.DB_DATA_INIT_AB = 310
+exports.DB_DATA_INIT_EB = 350
+exports.DB_DATA_INIT_MB = 402
+exports.DB_DATA_INIT_PN = 410
+exports.DB_DATA_INIT_MOTORS = 418
+exports.DB_DATA_LEN = 434
 
 const ALARM_LEN = 8
 exports.ALARM_LEN = ALARM_LEN

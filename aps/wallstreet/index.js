@@ -1,6 +1,7 @@
 require('dotenv').config()
 const fastify = require('fastify')({ logger: { name: 'wallstreet' } })
 const MongoClient = require('mongodb').MongoClient
+const snap7 = require('node-snap7')
 const s7def = require('./definitions')
 const s7obj = require('./entities')
 const plc = require('../../lib/plc')
@@ -16,12 +17,13 @@ const start = async () => {
     const wss = websocket('/ws/wallstreet', fastify)
     fastify.register(require('fastify-mongodb'), { client })
     fastify.register(require('../../lib/routes'), {
-      prefix: '/api/wallstreet',
+      prefix: '/aps/wallstreet',
       s7def,
       s7obj
     })
     await fastify.listen(s7def.HTTP)
-    await plc(db, s7def, s7obj, wss)
+    const cpu = new snap7.S7Client()
+    await plc(cpu, db, s7def, s7obj, wss)
   } catch (err) {
     fastify.log.error(err)
     process.exit(1)

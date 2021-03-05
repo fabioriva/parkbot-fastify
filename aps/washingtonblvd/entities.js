@@ -16,6 +16,7 @@ const Mode = require('../../models/mode')
 const Operation = require('../../models/operation')
 const Position = require('../../models/position')
 const Queue = require('../../models/queue')
+const Vfd = require('../../models/vfd')
 
 /**
  * Alarms.
@@ -56,7 +57,7 @@ for (let s = 0; s < s7def.STALLS; s++) {
 exports.stalls = stalls
 
 /*
- * I/O
+ * Inputs
  */
 const inputs1 = generateBits('E', 0, 3, texts.inputs1)
 const inputs2 = generateBits('E', 100, 109, texts.inputs2)
@@ -84,6 +85,9 @@ exports.inputs = inputs
 const EB = generateBytes(inputs)
 exports.EB = EB
 
+/*
+ * Outputs
+ */
 const outputs1 = generateBits('A', 0, 3, texts.outputs1)
 const outputs2 = generateBits('A', 100, 105, texts.outputs2)
 const outputs3 = generateBits('A', 200, 205, texts.outputs3)
@@ -110,11 +114,33 @@ exports.outputs = outputs
 const AB = generateBytes(outputs)
 exports.AB = AB
 
+/*
+ * Merkers
+ */
 const merkers = generateBits('M', 0, 7, texts.merkers)
 exports.merkers = merkers
 
 const MB = generateBytes(merkers)
 exports.MB = MB
+
+/**
+ * PN nodes
+ */
+const nodes = generateBits('M', 0, 7, texts.nodes)
+exports.nodes = nodes
+
+const PN = generateBytes(nodes)
+exports.PN = PN
+
+/**
+ * Motors
+ */
+
+const motors = generateBits('M', 0, 15, texts.motors)
+exports.motors = motors
+
+const MT = generateBytes(motors)
+exports.MT = MT
 
 /**
  * Racks
@@ -271,39 +297,64 @@ for (let q = 0; q < s7def.QUEUE; q++) {
 }
 exports.exitQueue = exitQueue
 
-// const { EL1 } = require('./devices/el1')
-// const { T1 } = require('./devices/t1')
+/**
+ * VFDrives
+ */
+// const vfds = []
+// for (let i = 0; i < s7def.DRIVES; i++) {
+//   vfds.push(
+//     new Vfd(
+//       texts.drives[i],
+//       nodes.find(b => b.label === texts.drives[i]).status
+//     )
+//   )
+// }
+// const drives = texts.drives.map(
+//   (item, key) =>
+//     new Vfd(
+//       item,
+//       nodes.find(b => b.label === item)
+//     )
+// )
+const drives = []
+exports.drives = drives
 
-const T1 = {
-  a: devices[0],
-  b: positions.slice(0, 4),
-  c: [
-    inputs.find(b => b.addr === 'E401.3'),
-    outputs.find(b => b.addr === 'A412.7'),
-    outputs.find(b => b.addr === 'A412.6'),
-    inputs.find(b => b.addr === 'E412.3'),
-    merkers.find(b => b.addr === 'M0.1'),
-    merkers.find(b => b.addr === 'M0.2')
-  ],
-  d: [],
-  e: [
-    inputs.find(b => b.addr === 'E412.0'),
-    inputs.find(b => b.addr === 'E412.1'),
-    inputs.find(b => b.addr === 'E412.2'),
-    inputs.find(b => b.addr === 'E412.3'),
-    inputs.find(b => b.addr === 'E412.4'),
-    inputs.find(b => b.addr === 'E412.5'),
-    inputs.find(b => b.addr === 'E412.6'),
-    inputs.find(b => b.addr === 'E412.7'),
-    outputs.find(b => b.addr === 'A401.1'), // T2
-    outputs.find(b => b.addr === 'A411.2'), // TRA
-    outputs.find(b => b.addr === 'A411.3'), // TRB
-    outputs.find(b => b.addr === 'A411.4'), // KCS
-    outputs.find(b => b.addr === 'A411.5'), // KCV
-    outputs.find(b => b.addr === 'A411.6') // KCH
-  ],
-  f: []
-}
+/**
+ * Devices
+ */
+const { EL1 } = require('./devices/el1')
+const { T1 } = require('./devices/t1')
+
+// const T1 = {
+//   a: devices[0],
+//   b: positions.slice(0, 4),
+//   c: [
+//     inputs.find(b => b.addr === 'E401.3'),
+//     outputs.find(b => b.addr === 'A412.7'),
+//     outputs.find(b => b.addr === 'A412.6'),
+//     inputs.find(b => b.addr === 'E412.3'),
+//     merkers.find(b => b.addr === 'M0.1'),
+//     merkers.find(b => b.addr === 'M0.2')
+//   ],
+//   d: [],
+//   e: [
+//     inputs.find(b => b.addr === 'E412.0'),
+//     inputs.find(b => b.addr === 'E412.1'),
+//     inputs.find(b => b.addr === 'E412.2'),
+//     inputs.find(b => b.addr === 'E412.3'),
+//     inputs.find(b => b.addr === 'E412.4'),
+//     inputs.find(b => b.addr === 'E412.5'),
+//     inputs.find(b => b.addr === 'E412.6'),
+//     inputs.find(b => b.addr === 'E412.7'),
+//     outputs.find(b => b.addr === 'A401.1'), // T2
+//     outputs.find(b => b.addr === 'A411.2'), // TRA
+//     outputs.find(b => b.addr === 'A411.3'), // TRB
+//     outputs.find(b => b.addr === 'A411.4'), // KCS
+//     outputs.find(b => b.addr === 'A411.5'), // KCV
+//     outputs.find(b => b.addr === 'A411.6') // KCH
+//   ],
+//   f: []
+// }
 
 const T2 = {
   a: devices[1],
@@ -367,21 +418,21 @@ const T3 = {
   f: []
 }
 
-const EL1 = {
-  a: devices[3],
-  b: positions.slice(12, 14),
-  c: [
-    inputs.find(b => b.addr === 'E103.3'),
-    outputs.find(b => b.addr === 'A100.7'),
-    outputs.find(b => b.addr === 'A100.6'),
-    merkers.find(b => b.addr === 'M1.0'),
-    merkers.find(b => b.addr === 'M1.1'),
-    merkers.find(b => b.addr === 'M1.2')
-  ],
-  d: [],
-  e: [],
-  f: []
-}
+// const EL1 = {
+//   a: devices[3],
+//   b: positions.slice(12, 14),
+//   c: [
+//     inputs.find(b => b.addr === 'E103.3'),
+//     outputs.find(b => b.addr === 'A100.7'),
+//     outputs.find(b => b.addr === 'A100.6'),
+//     merkers.find(b => b.addr === 'M1.0'),
+//     merkers.find(b => b.addr === 'M1.1'),
+//     merkers.find(b => b.addr === 'M1.2')
+//   ],
+//   d: [],
+//   e: [],
+//   f: []
+// }
 
 const EL2 = {
   a: devices[4],
@@ -416,7 +467,7 @@ const EL3 = {
 }
 
 exports.overview = {
-  devices: [T1, T2, T3, EL1, EL2, EL3],
+  devices: [EL1, EL2, EL3, T1, T2, T3],
   exitQueue: {
     queueList: exitQueue,
     exitButton: new Action(

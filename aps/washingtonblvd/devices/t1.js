@@ -35,4 +35,4 @@ const T1 = {
   f: []
 }
 
-exports.module = T1
+exports.T1 = T1

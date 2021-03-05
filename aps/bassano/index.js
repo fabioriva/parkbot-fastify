@@ -1,5 +1,5 @@
 require('dotenv').config()
-const fastify = require('fastify')({ logger: { name: 'wareham' } })
+const fastify = require('fastify')({ logger: { name: 'bassano' } })
 const MongoClient = require('mongodb').MongoClient
 const snap7 = require('node-snap7')
 const s7def = require('./definitions')
@@ -13,11 +13,11 @@ const start = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })
-    const db = client.db('wareham')
-    const wss = websocket('/ws/wareham', fastify)
+    const db = client.db('bassano')
+    const wss = websocket('/ws/bassano', fastify)
     fastify.register(require('fastify-mongodb'), { client })
     fastify.register(require('../../lib/routes'), {
-      prefix: '/aps/wareham',
+      prefix: '/aps/bassano',
       s7def,
       s7obj
     })
