@@ -1,6 +1,5 @@
 const EventEmitter = require('events')
 const format = require('date-fns/format')
-const { positions } = require('../aps/washingtonblvd/entities')
 
 class Motor extends EventEmitter {
   constructor (name, enb, bwd, fwd, ...args) {
@@ -23,15 +22,30 @@ class Motor extends EventEmitter {
     const { enb, bwd, fwd } = this
 
     this.args.forEach(arg => {
-      if (!arg.status && !arg.flag) {
+      if (arg.interlock === undefined) {
+        arg.interlock = Boolean(1)
+      }
+
+      if (Boolean(arg.status) !== arg.interlock && !arg.flag) {
         if (!enb.status && bwd.status ^ fwd.status) {
           arg.flag = true
-          this.diagnostic('diag-02:' + arg.addr)
+          this.diagnostic('diag-01: ' + arg.label)
         }
-      } else if (arg.status || enb.status) {
+      } else if (Boolean(arg.status) === arg.interlock || enb.status) {
         arg.flag = false
       }
     })
+
+    // this.args.forEach(arg => {
+    //   if (!arg.status && !arg.flag) {
+    //     if (!enb.status && bwd.status ^ fwd.status) {
+    //       arg.flag = true
+    //       this.diagnostic('diag-01: ' + arg.label)
+    //     }
+    //   } else if (arg.status || enb.status) {
+    //     arg.flag = false
+    //   }
+    // })
 
     if (enb.status) {
       this.active = []
@@ -60,7 +74,7 @@ class Actuator extends Motor {
     } else {
       this.motion = 'motion-err'
       if (m1.status !== m1.flag || m2.status !== m2.flag) {
-        this.diagnostic('diag-01')
+        this.diagnostic('diag-02: motion error')
       }
     }
 
@@ -84,7 +98,7 @@ class Actuator extends Motor {
     } else {
       this.position = 'position-err'
       if (p1.status !== p1.flag || p2.status !== p2.flag) {
-        this.diagnostic('diag-03')
+        this.diagnostic('diag-03: position error')
       }
     }
 
@@ -94,6 +108,55 @@ class Actuator extends Motor {
     if (p2.flag !== p2.status) {
       p2.flag = p2.status
     }
+  }
+}
+
+class Door extends Actuator {
+  constructor (name, enb, bwd, fwd, p1, p2, m1, m2, ...args) {
+    super(name, enb, bwd, fwd, p1, p2, m1, m2, ...args)
+
+    this.closed = [Object.assign({}, p1), Object.assign({}, p2)]
+    this.closed[0].interlock = Boolean(1)
+    this.closed[1].interlock = Boolean(0)
+
+    this.opened = [Object.assign({}, p1), Object.assign({}, p2)]
+    this.opened[0].interlock = Boolean(0)
+    this.opened[1].interlock = Boolean(1)
+  }
+
+  motion_ () {
+    const { m1, m2 } = this
+
+    this.up = Boolean(m1.status && !m2.status)
+    this.down = Boolean(m2.status && !m1.status)
+
+    super.motion_('motion-no', 'motion-close', 'motion-open')
+  }
+
+  position_ () {
+    const { p1, p2 } = this
+
+    this.closed[0].status = p1.status
+    this.closed[1].status = p2.status
+
+    this.opened[0].status = p1.status
+    this.opened[1].status = p2.status
+
+    // const EZE = Object.assign({}, p1)
+    // const EOE = Object.assign({}, p2)
+
+    // this.closed = [EZE, EOE]
+    // this.closed[0].interlock = Boolean(1)
+    // this.closed[1].interlock = Boolean(0)
+
+    // this.opened = [EZE, EOE]
+    // this.opened[0].interlock = Boolean(0)
+    // this.opened[1].interlock = Boolean(1)
+
+    // this.closed = Boolean(p1.status && !p2.status)
+    // this.opened = Boolean(p2.status && !p1.status)
+
+    super.position_('position-no', 'position-closed', 'position-opened')
   }
 }
 
@@ -142,10 +205,22 @@ class Lock extends Actuator {
  */
 
 class MVfd extends Motor {
-  constructor (name, enb, bwd, fwd, inverter, position, ...args) {
+  constructor (
+    name,
+    enb,
+    bwd,
+    fwd,
+    inverter,
+    position,
+    inputs,
+    outputs,
+    ...args
+  ) {
     super(name, enb, bwd, fwd, ...args)
     this.inverter = inverter
     this.position = position
+    this.inputs = inputs
+    this.outputs = outputs
   }
 
   motion_ (mesg0, mesg1, mesg2) {
@@ -160,10 +235,10 @@ class MVfd extends Motor {
     }
   }
 
-  position_ () {
-    const { position } = this
-    // console.log(position)
-  }
+  // position_ () {
+  //   const { position } = this
+  //   console.log(position)
+  // }
 }
 
 class Hoisting extends MVfd {
@@ -171,13 +246,28 @@ class Hoisting extends MVfd {
     super.motion_('motion-no', 'motion-up', 'motion-down')
   }
 
-  position_ () {
-    super.position_()
+  // position_ () {
+  //   super.position_()
+  // }
+}
+
+class Rotation extends MVfd {
+  motion_ () {
+    super.motion_('motion-no', 'motion-forward', 'motion-backward')
+  }
+}
+
+class Traveling extends MVfd {
+  motion_ () {
+    super.motion_('motion-no', 'motion-forward', 'motion-backward')
   }
 }
 
 module.exports = {
+  Door,
   Flap,
   Lock,
-  Hoisting
+  Hoisting,
+  Rotation,
+  Traveling
 }

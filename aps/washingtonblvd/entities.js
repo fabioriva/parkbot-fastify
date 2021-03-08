@@ -300,23 +300,23 @@ exports.exitQueue = exitQueue
 /**
  * VFDrives
  */
-// const vfds = []
-// for (let i = 0; i < s7def.DRIVES; i++) {
-//   vfds.push(
-//     new Vfd(
-//       texts.drives[i],
-//       nodes.find(b => b.label === texts.drives[i]).status
-//     )
-//   )
-// }
-// const drives = texts.drives.map(
-//   (item, key) =>
-//     new Vfd(
-//       item,
-//       nodes.find(b => b.label === item)
-//     )
-// )
-const drives = []
+const drives = texts.drives.map(
+  item =>
+    new Vfd(
+      item,
+      nodes.find(b => b.label === item)
+    )
+)
+drives[0].enabled = inputs.find(b => b.addr === 'E401.0')
+drives[1].enabled = inputs.find(b => b.addr === 'E401.1')
+drives[2].enabled = inputs.find(b => b.addr === 'E501.0')
+drives[3].enabled = inputs.find(b => b.addr === 'E501.1')
+drives[4].enabled = inputs.find(b => b.addr === 'E601.0')
+drives[5].enabled = inputs.find(b => b.addr === 'E601.1')
+drives[6].enabled = inputs.find(b => b.addr === 'E104.3')
+drives[7].enabled = inputs.find(b => b.addr === 'E204.3')
+drives[8].enabled = inputs.find(b => b.addr === 'E304.3')
+
 exports.drives = drives
 
 /**
