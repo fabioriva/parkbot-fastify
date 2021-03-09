@@ -13,9 +13,9 @@ exports.DEVICES = 6
 exports.DRIVES = 9
 exports.POSITIONS = 18
 exports.QUEUE = 5
-exports.AB = 36
-exports.EB = 66
-exports.MB = 8
+// exports.AB = 36
+// exports.EB = 66
+// exports.MB = 8
 exports.PN = 8 // Profinet nodes
 
 const CARDS = 212

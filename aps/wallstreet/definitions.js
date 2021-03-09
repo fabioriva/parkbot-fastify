@@ -10,11 +10,13 @@ exports.PLC = {
 }
 
 exports.DEVICES = 6
+exports.DRIVES = 12
 exports.POSITIONS = 18
 exports.QUEUE = 5
-exports.AB = 36
-exports.EB = 66
-exports.MB = 8
+// exports.AB = 36
+// exports.EB = 66
+// exports.MB = 8
+exports.PN = 8 // Profinet nodes
 
 const CARDS = 266
 const CARD_LEN = 12
@@ -30,16 +32,18 @@ exports.DB_MAP = 510
 exports.DB_MAP_INIT = 0
 exports.DB_MAP_LEN = STALLS * STALL_LEN
 
-exports.DB_DATA = 505
+exports.DB_DATA = 506
 exports.DB_DATA_INIT = 0
 exports.DB_DATA_INIT_DEVICE = 32
-exports.DB_DATA_INIT_GARAGE = 128
-exports.DB_DATA_INIT_POS = 158
-exports.DB_DATA_INIT_QUEUE = 230
-exports.DB_DATA_INIT_AB = 270
-exports.DB_DATA_INIT_EB = 312
-exports.DB_DATA_INIT_MB = 384
-exports.DB_DATA_LEN = 392
+exports.DB_DATA_INIT_DRIVE = 128
+exports.DB_DATA_INIT_POS = 248
+exports.DB_DATA_INIT_QUEUE = 320
+exports.DB_DATA_INIT_AB = 360
+exports.DB_DATA_INIT_EB = 402
+exports.DB_DATA_INIT_MB = 474
+exports.DB_DATA_INIT_PN = 482
+exports.DB_DATA_INIT_MOTORS = 490
+exports.DB_DATA_LEN = 508
 
 const ALARM_LEN = 8
 exports.ALARM_LEN = ALARM_LEN

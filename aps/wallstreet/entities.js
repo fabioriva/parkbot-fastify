@@ -1,5 +1,6 @@
 const s7def = require('./definitions')
 const texts = require('./texts')
+const { Alarm, AlarmGroup } = require('../../models/alarm')
 const { generateBits, generateBytes } = require('../../models/plcIo')
 const {
   S7_521_1BL00_0AB0,
@@ -17,7 +18,7 @@ const Mode = require('../../models/mode')
 const Operation = require('../../models/operation')
 const Position = require('../../models/position')
 const Queue = require('../../models/queue')
-const { Alarm, AlarmGroup } = require('../../models/alarm')
+const Vfd = require('../../models/vfd')
 
 /**
  * Alarms.
@@ -93,6 +94,7 @@ const inputs = inputs1.concat(
   inputs15,
   inputs16
 )
+exports.inputs = inputs
 
 const EB = generateBytes(inputs)
 exports.EB = EB
@@ -130,13 +132,35 @@ const outputs = outputs1.concat(
   outputs15,
   outputs16
 )
+exports.outputs = outputs
 
 const AB = generateBytes(outputs)
 exports.AB = AB
 
 const merkers = generateBits('M', 0, 7, texts.merkers)
+exports.merkers = merkers
+
 const MB = generateBytes(merkers)
 exports.MB = MB
+
+/**
+ * PN nodes
+ */
+const nodes = generateBits('M', 0, 7, texts.nodes)
+exports.nodes = nodes
+
+const PN = generateBytes(nodes)
+exports.PN = PN
+
+/**
+ * Motors
+ */
+
+const motors = generateBits('M', 0, 16, texts.motors)
+exports.motors = motors
+
+const MT = generateBytes(motors)
+exports.MT = MT
 
 /**
  * Racks
@@ -385,221 +409,42 @@ for (let q = 0; q < s7def.QUEUE; q++) {
 }
 exports.exitQueue = exitQueue
 
-const EVT1 = {
-  a: devices[0],
-  b: positions.slice(0, 2),
-  c: [
-    inputs.find(b => b.addr === 'E103.3'),
-    outputs.find(b => b.addr === 'A100.7'),
-    outputs.find(b => b.addr === 'A100.6'),
-    inputs.find(b => b.addr === 'E112.3'),
-    merkers.find(b => b.addr === 'M0.1'),
-    merkers.find(b => b.addr === 'M0.2')
-  ],
-  d: [
-    new Action(
-      merkers.find(b => b.addr === 'M3.0'),
-      s7def.REQ_1,
-      'action-entry'
-    ),
-    new Action(
-      merkers.find(b => b.addr === 'M3.4'),
-      s7def.REQ_2,
-      'action-rollback'
+/**
+ * VFDrives
+ */
+const drives = texts.drives.map(
+  item =>
+    new Vfd(
+      item,
+      nodes.find(b => b.label === item)
     )
-  ],
-  e: [
-    inputs.find(b => b.addr === 'E112.0'),
-    inputs.find(b => b.addr === 'E112.1'),
-    inputs.find(b => b.addr === 'E112.2'),
-    inputs.find(b => b.addr === 'E112.3'),
-    inputs.find(b => b.addr === 'E112.4'),
-    inputs.find(b => b.addr === 'E112.5'),
-    inputs.find(b => b.addr === 'E112.6'),
-    inputs.find(b => b.addr === 'E112.7'),
-    outputs.find(b => b.addr === 'A100.0'), // T2
-    outputs.find(b => b.addr === 'A110.2'), // TRA
-    outputs.find(b => b.addr === 'A110.3'), // TRB
-    outputs.find(b => b.addr === 'A110.4'), // KCS
-    outputs.find(b => b.addr === 'A110.5'), // KCV
-    outputs.find(b => b.addr === 'A110.6') // KCH
-  ]
-}
+)
+drives[0].enabled = inputs.find(b => b.addr === 'E102.3')
+drives[1].enabled = inputs.find(b => b.addr === 'E102.0')
+drives[2].enabled = inputs.find(b => b.addr === 'E202.3')
+drives[3].enabled = inputs.find(b => b.addr === 'E202.0')
+drives[4].enabled = inputs.find(b => b.addr === 'E302.3')
+drives[5].enabled = inputs.find(b => b.addr === 'E302.0')
+drives[6].enabled = inputs.find(b => b.addr === 'E401.1')
+drives[7].enabled = inputs.find(b => b.addr === 'E413.0')
+drives[8].enabled = inputs.find(b => b.addr === 'E501.1')
+drives[9].enabled = inputs.find(b => b.addr === 'E513.0')
+drives[10].enabled = inputs.find(b => b.addr === 'E601.1')
+drives[11].enabled = inputs.find(b => b.addr === 'E613.0')
+exports.drives = drives
 
-const EVT2 = {
-  a: devices[1],
-  b: positions.slice(2, 4),
-  c: [
-    inputs.find(b => b.addr === 'E203.3'),
-    outputs.find(b => b.addr === 'A200.7'),
-    outputs.find(b => b.addr === 'A200.6'),
-    inputs.find(b => b.addr === 'E212.3'),
-    merkers.find(b => b.addr === 'M0.2'),
-    merkers.find(b => b.addr === 'M0.3')
-  ],
-  d: [
-    new Action(
-      merkers.find(b => b.addr === 'M3.1'),
-      s7def.REQ_1,
-      'action-entry'
-    ),
-    new Action(
-      merkers.find(b => b.addr === 'M3.5'),
-      s7def.REQ_2,
-      'action-rollback'
-    )
-  ],
-  e: [
-    inputs.find(b => b.addr === 'E212.0'),
-    inputs.find(b => b.addr === 'E212.1'),
-    inputs.find(b => b.addr === 'E212.2'),
-    inputs.find(b => b.addr === 'E212.3'),
-    inputs.find(b => b.addr === 'E212.4'),
-    inputs.find(b => b.addr === 'E212.5'),
-    inputs.find(b => b.addr === 'E212.6'),
-    inputs.find(b => b.addr === 'E212.7'),
-    outputs.find(b => b.addr === 'A200.0'), // T2
-    outputs.find(b => b.addr === 'A210.2'), // TRA
-    outputs.find(b => b.addr === 'A210.3'), // TRB
-    outputs.find(b => b.addr === 'A210.4'), // KCS
-    outputs.find(b => b.addr === 'A210.5'), // KCV
-    outputs.find(b => b.addr === 'A210.6') // KCH
-  ]
-}
-
-const EVT3 = {
-  a: devices[2],
-  b: positions.slice(4, 6),
-  c: [
-    inputs.find(b => b.addr === 'E303.3'),
-    outputs.find(b => b.addr === 'A300.7'),
-    outputs.find(b => b.addr === 'A300.6'),
-    inputs.find(b => b.addr === 'E312.3'),
-    merkers.find(b => b.addr === 'M0.4'),
-    merkers.find(b => b.addr === 'M0.5')
-  ],
-  d: [
-    new Action(
-      merkers.find(b => b.addr === 'M3.2'),
-      s7def.REQ_1,
-      'action-entry'
-    ),
-    new Action(
-      merkers.find(b => b.addr === 'M3.6'),
-      s7def.REQ_2,
-      'action-rollback'
-    )
-  ],
-  e: [
-    inputs.find(b => b.addr === 'E312.0'),
-    inputs.find(b => b.addr === 'E312.1'),
-    inputs.find(b => b.addr === 'E312.2'),
-    inputs.find(b => b.addr === 'E312.3'),
-    inputs.find(b => b.addr === 'E312.4'),
-    inputs.find(b => b.addr === 'E312.5'),
-    inputs.find(b => b.addr === 'E312.6'),
-    inputs.find(b => b.addr === 'E312.7'),
-    outputs.find(b => b.addr === 'A300.0'), // T2
-    outputs.find(b => b.addr === 'A310.2'), // TRA
-    outputs.find(b => b.addr === 'A310.3'), // TRB
-    outputs.find(b => b.addr === 'A310.4'), // KCS
-    outputs.find(b => b.addr === 'A310.5'), // KCV
-    outputs.find(b => b.addr === 'A310.6') // KCH
-  ]
-}
-
-const IVT1 = {
-  a: devices[3],
-  b: positions.slice(6, 10),
-  c: [
-    inputs.find(b => b.addr === 'E401.3'),
-    outputs.find(b => b.addr === 'A400.7'),
-    outputs.find(b => b.addr === 'A400.6'),
-    inputs.find(b => b.addr === 'E412.3'),
-    merkers.find(b => b.addr === 'M1.0'),
-    merkers.find(b => b.addr === 'M1.1')
-  ],
-  d: [],
-  e: [
-    inputs.find(b => b.addr === 'E412.0'),
-    inputs.find(b => b.addr === 'E412.1'),
-    inputs.find(b => b.addr === 'E412.2'),
-    inputs.find(b => b.addr === 'E412.3'),
-    inputs.find(b => b.addr === 'E412.4'),
-    inputs.find(b => b.addr === 'E412.5'),
-    inputs.find(b => b.addr === 'E412.6'),
-    inputs.find(b => b.addr === 'E412.7'),
-    outputs.find(b => b.addr === 'A411.1'), // T2
-    outputs.find(b => b.addr === 'A411.2'), // TRA
-    outputs.find(b => b.addr === 'A411.3'), // TRB
-    outputs.find(b => b.addr === 'A411.4'), // KCS
-    outputs.find(b => b.addr === 'A411.5'), // KCV
-    outputs.find(b => b.addr === 'A411.6') // KCH
-  ]
-}
-
-const IVT2 = {
-  a: devices[4],
-  b: positions.slice(10, 14),
-  c: [
-    inputs.find(b => b.addr === 'E501.3'),
-    outputs.find(b => b.addr === 'A500.7'),
-    outputs.find(b => b.addr === 'A500.6'),
-    inputs.find(b => b.addr === 'E512.3'),
-    merkers.find(b => b.addr === 'M1.2'),
-    merkers.find(b => b.addr === 'M1.3')
-  ],
-  d: [],
-  e: [
-    inputs.find(b => b.addr === 'E512.0'),
-    inputs.find(b => b.addr === 'E512.1'),
-    inputs.find(b => b.addr === 'E512.2'),
-    inputs.find(b => b.addr === 'E512.3'),
-    inputs.find(b => b.addr === 'E512.4'),
-    inputs.find(b => b.addr === 'E512.5'),
-    inputs.find(b => b.addr === 'E512.6'),
-    inputs.find(b => b.addr === 'E512.7'),
-    outputs.find(b => b.addr === 'A511.1'), // T2
-    outputs.find(b => b.addr === 'A511.2'), // TRA
-    outputs.find(b => b.addr === 'A511.3'), // TRB
-    outputs.find(b => b.addr === 'A511.4'), // KCS
-    outputs.find(b => b.addr === 'A511.5'), // KCV
-    outputs.find(b => b.addr === 'A511.6') // KCH
-  ]
-}
-
-const IVT3 = {
-  a: devices[5],
-  b: positions.slice(14, 18),
-  c: [
-    inputs.find(b => b.addr === 'E601.3'),
-    outputs.find(b => b.addr === 'A600.7'),
-    outputs.find(b => b.addr === 'A600.6'),
-    inputs.find(b => b.addr === 'E612.3'),
-    merkers.find(b => b.addr === 'M1.4'),
-    merkers.find(b => b.addr === 'M1.5')
-  ],
-  d: [],
-  e: [
-    inputs.find(b => b.addr === 'E612.0'),
-    inputs.find(b => b.addr === 'E612.1'),
-    inputs.find(b => b.addr === 'E612.2'),
-    inputs.find(b => b.addr === 'E612.3'),
-    inputs.find(b => b.addr === 'E612.4'),
-    inputs.find(b => b.addr === 'E612.5'),
-    inputs.find(b => b.addr === 'E612.6'),
-    inputs.find(b => b.addr === 'E612.7'),
-    outputs.find(b => b.addr === 'A611.1'), // T2
-    outputs.find(b => b.addr === 'A611.2'), // TRA
-    outputs.find(b => b.addr === 'A611.3'), // TRB
-    outputs.find(b => b.addr === 'A611.4'), // KCS
-    outputs.find(b => b.addr === 'A611.5'), // KCV
-    outputs.find(b => b.addr === 'A611.6') // KCH
-  ]
-}
+/**
+ * Devices
+ */
+const { EVT1 } = require('./devices/evt1')
+const { EVT2 } = require('./devices/evt2')
+const { EVT3 } = require('./devices/evt3')
+const { IVT4 } = require('./devices/ivt4')
+const { IVT5 } = require('./devices/ivt5')
+const { IVT6 } = require('./devices/ivt6')
 
 exports.overview = {
-  devices: [EVT1, EVT2, EVT3, IVT1, IVT2, IVT3],
+  devices: [EVT1, EVT2, EVT3, IVT4, IVT5, IVT6],
   exitQueue: {
     queueList: exitQueue,
     exitButton: new Action(
