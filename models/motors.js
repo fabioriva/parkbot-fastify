@@ -60,6 +60,8 @@ class Actuator extends Motor {
     this.m2 = m2
     this.p1 = p1
     this.p2 = p2
+    this.motion = 'motion-err'
+    this.position = 'position-err'
   }
 
   motion_ (mesg0, mesg1, mesg2) {
@@ -237,6 +239,7 @@ class MVfd extends Motor {
     // this.position = position
     this.inputs = inputs
     this.outputs = outputs
+    this.motion = 'motion-err'
   }
 
   motion_ (mesg0, mesg1, mesg2) {

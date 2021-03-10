@@ -57,9 +57,9 @@ const RTA = inputs.find(b => b.addr === 'E401.6')
 
 const M1 = new Hoisting(
   'motor-hoisting',
-  motors.find(b => b.label === 'M1-ENB-T1'),
-  motors.find(b => b.label === 'M1-BWD-T1'),
-  motors.find(b => b.label === 'M1-FWD-T1'),
+  motors.find(b => b.label === 'M1-ENB-VT4'),
+  motors.find(b => b.label === 'M1-BWD-VT4'),
+  motors.find(b => b.label === 'M1-FWD-VT4'),
   IV1,
   positions.slice(6, 8),
   [IV1EN, FSBK],
