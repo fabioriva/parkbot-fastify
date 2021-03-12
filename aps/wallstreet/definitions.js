@@ -1,4 +1,5 @@
 exports.APS = 'wallstreet'
+exports.TZ = 'America/Los_Angeles'
 exports.HTTP = 8089
 exports.PORT = 49009
 exports.HOST = process.env.DEVELOPMENT_SERVER

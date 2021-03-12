@@ -1,4 +1,5 @@
 exports.APS = 'washingthonblvd'
+exports.TZ = 'America/Jerusalem'
 exports.HTTP = 8093
 exports.PORT = 49013
 exports.HOST = process.env.DEVELOPMENT_SERVER

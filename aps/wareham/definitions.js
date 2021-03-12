@@ -1,4 +1,5 @@
 exports.APS = 'wareham'
+exports.TZ = 'America/New_York'
 exports.HTTP = 8086
 exports.PORT = 49006
 exports.HOST = process.env.DEVELOPMENT_SERVER

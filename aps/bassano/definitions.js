@@ -1,4 +1,5 @@
 exports.APS = 'bassano'
+exports.TZ = 'Europe/Rome'
 exports.HTTP = 8081
 exports.PORT = 49001
 exports.HOST = process.env.DEVELOPMENT_SERVER

@@ -1,4 +1,5 @@
 exports.APS = 'daman'
+exports.TZ = 'America/Dubai'
 exports.HTTP = 5001
 exports.HOST = process.env.DEVELOPMENT_SERVER
 exports.PLC_N = {

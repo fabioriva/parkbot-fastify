@@ -1,5 +1,6 @@
 const EventEmitter = require('events')
-const format = require('date-fns/format')
+// const format = require('date-fns/format')
+const { format, utcToZonedTime } = require('date-fns-tz')
 
 class Motor extends EventEmitter {
   constructor (name, enb, bwd, fwd, ...args) {
@@ -12,13 +13,17 @@ class Motor extends EventEmitter {
     this.active = []
   }
 
-  diagnostic (mesg) {
-    const message = { date: format(Date.now(), 'yyyy-MM-dd HH:mm:ss'), mesg }
+  diagnostic (type, arg, timeZone) {
+    const date = utcToZonedTime(new Date(), timeZone)
+    const utc = format(date, 'yyyy-MM-dd HH:mm:ss zzz', {
+      timeZone: timeZone
+    })
+    const message = { date: utc, mesg: type + ' ' + arg.label }
     this.active.push(message)
     this.emit('diagnostic', message)
   }
 
-  diagnostic_ () {
+  diagnostic_ (timeZone) {
     const { enb, bwd, fwd } = this
 
     this.args.forEach(arg => {
@@ -29,7 +34,8 @@ class Motor extends EventEmitter {
       if (Boolean(arg.status) !== arg.interlock && !arg.flag) {
         if (!enb.status && bwd.status ^ fwd.status) {
           arg.flag = true
-          this.diagnostic('diag-01: ' + arg.label)
+          // this.diagnostic('diag-01: ' + arg.label)
+          this.diagnostic('diag-interlock', arg, timeZone)
         }
       } else if (Boolean(arg.status) === arg.interlock || enb.status) {
         arg.flag = false
@@ -64,7 +70,7 @@ class Actuator extends Motor {
     this.position = 'position-err'
   }
 
-  motion_ (mesg0, mesg1, mesg2) {
+  motion_ (mesg0, mesg1, mesg2, timeZone) {
     const { m1, m2 } = this
 
     if (!m1.status && !m2.status) {
@@ -75,9 +81,9 @@ class Actuator extends Motor {
       this.motion = mesg2
     } else {
       this.motion = 'motion-err'
-      if (m1.status !== m1.flag || m2.status !== m2.flag) {
-        this.diagnostic('diag-02: motion error')
-      }
+      // if (m1.status !== m1.flag || m2.status !== m2.flag) {
+      //   this.diagnostic('diag-02: motion error')
+      // }
     }
 
     if (m1.flag !== m1.status) {
@@ -88,7 +94,7 @@ class Actuator extends Motor {
     }
   }
 
-  position_ (mesg0, mesg1, mesg2) {
+  position_ (mesg0, mesg1, mesg2, timeZone) {
     const { p1, p2 } = this
 
     if (!p1.status && !p2.status) {
@@ -99,9 +105,9 @@ class Actuator extends Motor {
       this.position = mesg2
     } else {
       this.position = 'position-err'
-      if (p1.status !== p1.flag || p2.status !== p2.flag) {
-        this.diagnostic('diag-03: position error')
-      }
+      // if (p1.status !== p1.flag || p2.status !== p2.flag) {
+      //   this.diagnostic('diag-03: position error')
+      // }
     }
 
     if (p1.flag !== p1.status) {
@@ -187,13 +193,13 @@ class Lock extends Actuator {
   constructor (name, enb, bwd, fwd, p1, p2, m1, m2, ...args) {
     super(name, enb, bwd, fwd, p1, p2, m1, m2, ...args)
 
-    this.locked = [Object.assign({}, p1), Object.assign({}, p2)]
-    this.locked[0].interlock = Boolean(1)
-    this.locked[1].interlock = Boolean(0)
-
     this.unlocked = [Object.assign({}, p1), Object.assign({}, p2)]
-    this.unlocked[0].interlock = Boolean(0)
-    this.unlocked[1].interlock = Boolean(1)
+    this.unlocked[0].interlock = Boolean(1)
+    this.unlocked[1].interlock = Boolean(0)
+
+    this.locked = [Object.assign({}, p1), Object.assign({}, p2)]
+    this.locked[0].interlock = Boolean(0)
+    this.locked[1].interlock = Boolean(1)
   }
 
   motion_ () {
