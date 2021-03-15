@@ -214,16 +214,16 @@ const EVT = {
     merkers.find(b => b.addr === 'M0.2')
   ],
   d: [
-    // new Action(
-    //   merkers.find(b => b.addr === 'M3.0'),
-    //   s7def.REQ_1,
-    //   'action-entry'
-    // ),
-    // new Action(
-    //   merkers.find(b => b.addr === 'M3.4'),
-    //   s7def.REQ_2,
-    //   'action-rollback'
-    // )
+    new Action(
+      merkers.find(b => b.addr === 'M3.0'),
+      {},
+      'action-entry'
+    ),
+    new Action(
+      merkers.find(b => b.addr === 'M3.4'),
+      {},
+      'action-rollback'
+    )
   ],
   e: SIL,
   f: [M2, M4, M5, M6],
