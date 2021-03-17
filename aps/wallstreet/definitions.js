@@ -34,6 +34,12 @@ exports.STALL_LEN = STALL_LEN
 exports.DB_MAP = 510
 exports.DB_MAP_INIT = 0
 exports.DB_MAP_LEN = STALLS * STALL_LEN
+exports.StallStatus = {
+  FREE: 0,
+  PAPA: 997, // 65533
+  RSVD: 998, // 65534
+  LOCK: 999 // 65535
+}
 
 const DB_DATA = 506
 exports.DB_DATA = DB_DATA
@@ -68,11 +74,32 @@ exports.DBS_ALARM = [
   DB_ALARM_6
 ]
 
+exports.DATA_READ = {
+  area: 0x84,
+  dbNumber: DB_DATA,
+  start: 0,
+  amount: 508,
+  wordLen: 0x02
+}
+exports.MAP_READ = {
+  area: 0x84,
+  dbNumber: 510,
+  start: 0,
+  amount: STALLS * STALL_LEN,
+  wordLen: 0x02
+}
 exports.MAP_EDIT = {
   area: 0x84,
   dbNumber: DB_DATA,
   start: 520,
   amount: 4,
+  wordLen: 0x02
+}
+exports.CARD_READ = {
+  area: 0x84,
+  dbNumber: 512,
+  start: 0,
+  amount: CARDS * CARD_LEN,
   wordLen: 0x02
 }
 exports.CARD_EDIT = {
