@@ -1,11 +1,11 @@
 const {
   devices,
   drives,
-  positions,
   inputs,
   outputs,
   merkers,
-  motors
+  motors,
+  positions
 } = require('../entities')
 const {
   Door,
@@ -172,6 +172,22 @@ const FTCR = inputs.find(b => b.addr === 'E311.4')
 
 const TCR = outputs.find(b => b.addr === 'A310.7')
 
+const SIL_IO = [
+  inputs.find(b => b.addr === 'E312.0'),
+  inputs.find(b => b.addr === 'E312.1'),
+  inputs.find(b => b.addr === 'E312.2'),
+  inputs.find(b => b.addr === 'E312.3'),
+  inputs.find(b => b.addr === 'E312.4'),
+  inputs.find(b => b.addr === 'E312.5'),
+  inputs.find(b => b.addr === 'E312.6'),
+  inputs.find(b => b.addr === 'E312.7'),
+  outputs.find(b => b.addr === 'A300.0'), // T2
+  outputs.find(b => b.addr === 'A310.2'), // TRA
+  outputs.find(b => b.addr === 'A310.3'), // TRB
+  outputs.find(b => b.addr === 'A310.4'), // KCS
+  outputs.find(b => b.addr === 'A310.5'), // KCV
+  outputs.find(b => b.addr === 'A310.6') // KCH
+]
 const SIL = new Silomat(
   'motor-silomat',
   motors.find(b => b.label === 'SIL-ENB-VT3'),
@@ -180,22 +196,7 @@ const SIL = new Silomat(
   IV2,
   [IV2EN, FTCR],
   [TCR],
-  [
-    inputs.find(b => b.addr === 'E312.0'),
-    inputs.find(b => b.addr === 'E312.1'),
-    inputs.find(b => b.addr === 'E312.2'),
-    inputs.find(b => b.addr === 'E312.3'),
-    inputs.find(b => b.addr === 'E312.4'),
-    inputs.find(b => b.addr === 'E312.5'),
-    inputs.find(b => b.addr === 'E312.6'),
-    inputs.find(b => b.addr === 'E312.7'),
-    outputs.find(b => b.addr === 'A300.0'), // T2
-    outputs.find(b => b.addr === 'A310.2'), // TRA
-    outputs.find(b => b.addr === 'A310.3'), // TRB
-    outputs.find(b => b.addr === 'A310.4'), // KCS
-    outputs.find(b => b.addr === 'A310.5'), // KCV
-    outputs.find(b => b.addr === 'A310.6') // KCH
-  ],
+  SIL_IO,
   ...[AKKM, AGF, MTC, FTCR]
 )
 
@@ -225,10 +226,12 @@ const EVT = {
     //   'action-rollback'
     // )
   ],
-  e: SIL,
+  e: SIL_IO,
   f: [M2, M4, M5, M6],
   g: [M1, M3],
-  h: [IV1, IV2]
+  h: [IV1, IV2],
+  i: SIL
 }
 
-exports.EVT3 = EVT
+// exports.EVT3 = EVT
+module.exports = { EVT }

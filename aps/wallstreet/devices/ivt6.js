@@ -1,11 +1,11 @@
 const {
   devices,
   drives,
-  positions,
   inputs,
   outputs,
   merkers,
-  motors
+  motors,
+  positions
 } = require('../entities')
 const { Lock, Hoisting, Traveling, Silomat } = require('../../../models/motors')
 
@@ -103,6 +103,22 @@ const TCR = outputs.find(b => b.addr === 'A611.7')
 const FTCR1 = inputs.find(b => b.addr === 'E604.2')
 const TCR1 = outputs.find(b => b.addr === 'A604.2')
 
+const SIL_IO = [
+  inputs.find(b => b.addr === 'E612.0'),
+  inputs.find(b => b.addr === 'E612.1'),
+  inputs.find(b => b.addr === 'E612.2'),
+  inputs.find(b => b.addr === 'E612.3'),
+  inputs.find(b => b.addr === 'E612.4'),
+  inputs.find(b => b.addr === 'E612.5'),
+  inputs.find(b => b.addr === 'E612.6'),
+  inputs.find(b => b.addr === 'E612.7'),
+  outputs.find(b => b.addr === 'A611.1'), // T2
+  outputs.find(b => b.addr === 'A611.2'), // TRA
+  outputs.find(b => b.addr === 'A611.3'), // TRB
+  outputs.find(b => b.addr === 'A611.4'), // KCS
+  outputs.find(b => b.addr === 'A611.5'), // KCV
+  outputs.find(b => b.addr === 'A611.6') // KCH
+]
 const SIL = new Silomat(
   'motor-silomat',
   motors.find(b => b.label === 'SIL-ENB-VT6'),
@@ -111,22 +127,7 @@ const SIL = new Silomat(
   IV2,
   [IV2EN, FTCR, FTCR1],
   [TCR, TCR1],
-  [
-    inputs.find(b => b.addr === 'E612.0'),
-    inputs.find(b => b.addr === 'E612.1'),
-    inputs.find(b => b.addr === 'E612.2'),
-    inputs.find(b => b.addr === 'E612.3'),
-    inputs.find(b => b.addr === 'E612.4'),
-    inputs.find(b => b.addr === 'E612.5'),
-    inputs.find(b => b.addr === 'E612.6'),
-    inputs.find(b => b.addr === 'E612.7'),
-    outputs.find(b => b.addr === 'A611.1'), // T2
-    outputs.find(b => b.addr === 'A611.2'), // TRA
-    outputs.find(b => b.addr === 'A611.3'), // TRB
-    outputs.find(b => b.addr === 'A611.4'), // KCS
-    outputs.find(b => b.addr === 'A611.5'), // KCV
-    outputs.find(b => b.addr === 'A611.6') // KCH
-  ],
+  SIL_IO,
   ...[AF7, MTC, FTCR, FTCR1]
 )
 
@@ -145,10 +146,12 @@ const IVT = {
     merkers.find(b => b.addr === 'M1.5')
   ],
   d: [],
-  e: SIL,
+  e: SIL_IO,
   f: [M2],
   g: [M1, M3],
-  h: [IV1, IV2]
+  h: [IV1, IV2],
+  i: SIL
 }
 
-exports.IVT6 = IVT
+// exports.IVT6 = IVT
+module.exports = { IVT }

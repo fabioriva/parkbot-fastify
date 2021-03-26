@@ -1,11 +1,11 @@
 const {
   devices,
   drives,
-  positions,
   inputs,
   outputs,
   merkers,
-  motors
+  motors,
+  positions
 } = require('../entities')
 const {
   Door,
@@ -16,7 +16,7 @@ const {
   Silomat
 } = require('../../../models/motors')
 const Action = require('../../../models/action')
-
+// const Device = require('../../../models/device')
 /**
  * VFDs
  */
@@ -172,6 +172,22 @@ const FTCR = inputs.find(b => b.addr === 'E111.4')
 
 const TCR = outputs.find(b => b.addr === 'A110.7')
 
+const SIL_IO = [
+  inputs.find(b => b.addr === 'E112.0'),
+  inputs.find(b => b.addr === 'E112.1'),
+  inputs.find(b => b.addr === 'E112.2'),
+  inputs.find(b => b.addr === 'E112.3'),
+  inputs.find(b => b.addr === 'E112.4'),
+  inputs.find(b => b.addr === 'E112.5'),
+  inputs.find(b => b.addr === 'E112.6'),
+  inputs.find(b => b.addr === 'E112.7'),
+  outputs.find(b => b.addr === 'A100.0'), // T2
+  outputs.find(b => b.addr === 'A110.2'), // TRA
+  outputs.find(b => b.addr === 'A110.3'), // TRB
+  outputs.find(b => b.addr === 'A110.4'), // KCS
+  outputs.find(b => b.addr === 'A110.5'), // KCV
+  outputs.find(b => b.addr === 'A110.6') // KCH
+]
 const SIL = new Silomat(
   'motor-silomat',
   motors.find(b => b.label === 'SIL-ENB-VT1'),
@@ -180,29 +196,14 @@ const SIL = new Silomat(
   IV2,
   [IV2EN, FTCR],
   [TCR],
-  [
-    inputs.find(b => b.addr === 'E112.0'),
-    inputs.find(b => b.addr === 'E112.1'),
-    inputs.find(b => b.addr === 'E112.2'),
-    inputs.find(b => b.addr === 'E112.3'),
-    inputs.find(b => b.addr === 'E112.4'),
-    inputs.find(b => b.addr === 'E112.5'),
-    inputs.find(b => b.addr === 'E112.6'),
-    inputs.find(b => b.addr === 'E112.7'),
-    outputs.find(b => b.addr === 'A100.0'), // T2
-    outputs.find(b => b.addr === 'A110.2'), // TRA
-    outputs.find(b => b.addr === 'A110.3'), // TRB
-    outputs.find(b => b.addr === 'A110.4'), // KCS
-    outputs.find(b => b.addr === 'A110.5'), // KCV
-    outputs.find(b => b.addr === 'A110.6') // KCH
-  ],
+  SIL_IO,
   ...[AKKM, AGF, MTC, FTCR]
 )
 
 /**
  * Device
  */
-const EVT = {
+const EVT1 = {
   a: devices[0],
   b: positions.slice(0, 2),
   c: [
@@ -225,10 +226,20 @@ const EVT = {
       'action-rollback'
     )
   ],
-  e: SIL,
-  f: [M2, M4, M5, M6],
-  g: [M1, M3],
-  h: [IV1, IV2]
+  e: SIL_IO
+  // f: [M2, M4, M5, M6],
+  // g: [M1, M3],
+  // h: [IV1, IV2],
+  // i: SIL
 }
 
-exports.EVT1 = EVT
+const augmentedEVT1 = {
+  ...EVT1,
+  f: [M2, M4, M5, M6],
+  g: [M1, M3],
+  h: [IV1, IV2],
+  i: SIL
+}
+
+// exports.EVT1 = EVT
+module.exports = { EVT1, augmentedEVT1 }

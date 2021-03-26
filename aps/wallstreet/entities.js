@@ -436,15 +436,16 @@ exports.drives = drives
 /**
  * Devices
  */
-const { EVT1 } = require('./devices/evt1')
-const { EVT2 } = require('./devices/evt2')
-const { EVT3 } = require('./devices/evt3')
-const { IVT4 } = require('./devices/ivt4')
-const { IVT5 } = require('./devices/ivt5')
-const { IVT6 } = require('./devices/ivt6')
+// const EVT1 = require('./devices/evt1')
+const { EVT1, augmentedEVT1 } = require('./devices/evt1')
+// const EVT2 = require('./devices/evt2')
+// const EVT3 = require('./devices/evt3')
+// const IVT4 = require('./devices/ivt4')
+// const IVT5 = require('./devices/ivt5')
+// const IVT6 = require('./devices/ivt6')
 
 exports.overview = {
-  devices: [EVT1, EVT2, EVT3, IVT4, IVT5, IVT6],
+  devices: [EVT1, EVT1, EVT1], //, EVT2, EVT3, IVT4, IVT5, IVT6],
   exitQueue: {
     queueList: exitQueue,
     exitButton: new Action(
@@ -454,6 +455,8 @@ exports.overview = {
     )
   }
 }
+
+exports.diagnostic = [augmentedEVT1]
 
 /*
  * Map
