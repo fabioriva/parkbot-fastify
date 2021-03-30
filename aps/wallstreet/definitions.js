@@ -2,7 +2,10 @@ exports.APS = 'wallstreet'
 exports.TZ = 'America/Los_Angeles'
 exports.HTTP = 8089
 exports.PORT = 49009
-exports.HOST = process.env.DEVELOPMENT_SERVER
+exports.HOST =
+  process.env.NODE_ENV !== 'production'
+    ? process.env.PRODUCTION_SERVER
+    : process.env.DEVELOPMENT_SERVER
 exports.PLC = {
   ip: '192.168.67.2',
   rack: 0,
