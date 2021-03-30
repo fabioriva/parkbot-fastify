@@ -4,7 +4,7 @@ exports.HTTP = 8089
 exports.PORT = 49009
 exports.HOST = process.env.DEVELOPMENT_SERVER
 exports.PLC = {
-  ip: '192.168.200.55', // 67.2',
+  ip: '192.168.67.2',
   rack: 0,
   slot: 1,
   polling_time: 999
