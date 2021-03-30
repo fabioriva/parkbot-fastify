@@ -41,7 +41,7 @@ const SMB = outputs.find(b => b.addr === 'A311.1')
 const AMM = inputs.find(b => b.addr === 'E310.5')
 
 const M2 = new Lock(
-  'motor-lock',
+  'motor-lock-v',
   motors.find(b => b.label === 'M2-ENB-VT3'),
   motors.find(b => b.label === 'M2-BWD-VT3'),
   motors.find(b => b.label === 'M2-FWD-VT3'),
@@ -85,7 +85,7 @@ const APE = inputs.find(b => b.addr === 'E301.6')
 const KXPE = [EXPV, KEXPV, M2.locked]
 
 const M5 = new Door(
-  'motor-door',
+  'motor-door-entry',
   motors.find(b => b.label === 'M5-ENB-VT3'),
   motors.find(b => b.label === 'M5-BWD-VT3'),
   motors.find(b => b.label === 'M5-FWD-VT3'),
@@ -108,7 +108,7 @@ const APA = inputs.find(b => b.addr === 'E301.3')
 const KXPA = [EXPV, KEXPV, M2.locked]
 
 const M6 = new Door(
-  'motor-door',
+  'motor-door-exit',
   motors.find(b => b.label === 'M6-ENB-VT3'),
   motors.find(b => b.label === 'M6-BWD-VT3'),
   motors.find(b => b.label === 'M6-FWD-VT3'),
@@ -203,7 +203,7 @@ const SIL = new Silomat(
 /**
  * Device
  */
-const EVT = {
+const EVT3 = {
   a: devices[2],
   b: positions.slice(4, 6),
   c: [
@@ -215,23 +215,26 @@ const EVT = {
     merkers.find(b => b.addr === 'M0.5')
   ],
   d: [
-    // new Action(
-    //   merkers.find(b => b.addr === 'M3.0'),
-    //   s7def.REQ_1,
-    //   'action-entry'
-    // ),
-    // new Action(
-    //   merkers.find(b => b.addr === 'M3.4'),
-    //   s7def.REQ_2,
-    //   'action-rollback'
-    // )
+    new Action(
+      merkers.find(b => b.addr === 'M3.2'),
+      {},
+      'action-entry'
+    ),
+    new Action(
+      merkers.find(b => b.addr === 'M3.5'),
+      {},
+      'action-rollback'
+    )
   ],
-  e: SIL_IO,
+  e: SIL_IO
+}
+
+const augmentedEVT3 = {
+  ...EVT3,
   f: [M2, M4, M5, M6],
   g: [M1, M3],
   h: [IV1, IV2],
   i: SIL
 }
 
-// exports.EVT3 = EVT
-module.exports = { EVT }
+module.exports = { EVT3, augmentedEVT3 }

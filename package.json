@@ -21,7 +21,7 @@
     "fastify": "^3.14.0",
     "fastify-cors": "^5.2.0",
     "fastify-mongodb": "^2.0.1",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.5",
     "node-snap7": "^1.0.5",
     "ws": "^7.4.4"
   },

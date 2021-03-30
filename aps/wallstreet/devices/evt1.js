@@ -16,7 +16,7 @@ const {
   Silomat
 } = require('../../../models/motors')
 const Action = require('../../../models/action')
-// const Device = require('../../../models/device')
+
 /**
  * VFDs
  */
@@ -41,7 +41,7 @@ const SMB = outputs.find(b => b.addr === 'A111.1')
 const AMM = inputs.find(b => b.addr === 'E110.5')
 
 const M2 = new Lock(
-  'motor-lock',
+  'motor-lock-v',
   motors.find(b => b.label === 'M2-ENB-VT1'),
   motors.find(b => b.label === 'M2-BWD-VT1'),
   motors.find(b => b.label === 'M2-FWD-VT1'),
@@ -85,7 +85,7 @@ const APE = inputs.find(b => b.addr === 'E101.6')
 const KXPE = [EXPV, KEXPV, M2.locked]
 
 const M5 = new Door(
-  'motor-door',
+  'motor-door-entry',
   motors.find(b => b.label === 'M5-ENB-VT1'),
   motors.find(b => b.label === 'M5-BWD-VT1'),
   motors.find(b => b.label === 'M5-FWD-VT1'),
@@ -108,7 +108,7 @@ const APA = inputs.find(b => b.addr === 'E101.3')
 const KXPA = [EXPV, KEXPV, M2.locked]
 
 const M6 = new Door(
-  'motor-door',
+  'motor-door-exit',
   motors.find(b => b.label === 'M6-ENB-VT1'),
   motors.find(b => b.label === 'M6-BWD-VT1'),
   motors.find(b => b.label === 'M6-FWD-VT1'),
@@ -221,16 +221,12 @@ const EVT1 = {
       'action-entry'
     ),
     new Action(
-      merkers.find(b => b.addr === 'M3.4'),
+      merkers.find(b => b.addr === 'M3.3'),
       {},
       'action-rollback'
     )
   ],
   e: SIL_IO
-  // f: [M2, M4, M5, M6],
-  // g: [M1, M3],
-  // h: [IV1, IV2],
-  // i: SIL
 }
 
 const augmentedEVT1 = {
@@ -241,5 +237,4 @@ const augmentedEVT1 = {
   i: SIL
 }
 
-// exports.EVT1 = EVT
 module.exports = { EVT1, augmentedEVT1 }

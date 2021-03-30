@@ -134,7 +134,7 @@ const SIL = new Silomat(
 /**
  * Device
  */
-const IVT = {
+const IVT4 = {
   a: devices[3],
   b: positions.slice(6, 10),
   c: [
@@ -146,12 +146,15 @@ const IVT = {
     merkers.find(b => b.addr === 'M1.1')
   ],
   d: [],
-  e: SIL_IO,
+  e: SIL_IO
+}
+
+const augmentedIVT4 = {
+  ...IVT4,
   f: [M2],
   g: [M1, M3],
   h: [IV1, IV2],
   i: SIL
 }
 
-// exports.IVT4 = IVT
-module.exports = { IVT }
+module.exports = { IVT4, augmentedIVT4 }
