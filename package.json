@@ -5,6 +5,7 @@
   "scripts": {
     "test": "standard",
     "dev": "nodemon",
+    "start": "NODE_ENV=production pm2 start aps/wallstreet/index.js --name spire",
     "bassano": "nodemon aps/bassano",
     "daman": "nodemon aps/daman/monitor.js",
     "matalon": "nodemon aps/matalon",
@@ -30,8 +31,6 @@
     "standard": "^16.0.3"
   },
   "standard": {
-    "ignore": [
-      "/public"
-    ]
+    "ignore": ["/public"]
   }
 }
