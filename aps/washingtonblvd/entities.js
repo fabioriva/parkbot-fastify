@@ -322,12 +322,12 @@ exports.drives = drives
 /**
  * Devices
  */
-const { EL1 } = require('./devices/el1')
-const { EL2 } = require('./devices/el2')
-const { EL3 } = require('./devices/el3')
-const { T1 } = require('./devices/t1')
-const { T2 } = require('./devices/t2')
-const { T3 } = require('./devices/t3')
+const { T1, xT1 } = require('./devices/t1')
+const { T2, xT2 } = require('./devices/t2')
+const { T3, xT3 } = require('./devices/t3')
+const { EL1, xEL1 } = require('./devices/el1')
+const { EL2, xEL2 } = require('./devices/el2')
+const { EL3, xEL3 } = require('./devices/el3')
 
 exports.overview = {
   devices: [EL1, EL2, EL3, T1, T2, T3],
@@ -340,6 +340,8 @@ exports.overview = {
     )
   }
 }
+
+exports.diagnostic = [xEL1, xEL2, xEL3, xT1, xT2, xT3]
 
 /*
  * Map

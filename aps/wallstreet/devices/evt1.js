@@ -229,7 +229,7 @@ const EVT1 = {
   e: SIL_IO
 }
 
-const augmentedEVT1 = {
+const xEVT1 = {
   ...EVT1,
   f: [M2, M4, M5, M6],
   g: [M1, M3],
@@ -237,4 +237,4 @@ const augmentedEVT1 = {
   i: SIL
 }
 
-module.exports = { EVT1, augmentedEVT1 }
+module.exports = { EVT1, xEVT1 }

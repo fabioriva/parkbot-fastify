@@ -436,12 +436,12 @@ exports.drives = drives
 /**
  * Devices
  */
-const { EVT1, augmentedEVT1 } = require('./devices/evt1')
-const { EVT2, augmentedEVT2 } = require('./devices/evt2')
-const { EVT3, augmentedEVT3 } = require('./devices/evt3')
-const { IVT4, augmentedIVT4 } = require('./devices/ivt4')
-const { IVT5, augmentedIVT5 } = require('./devices/ivt5')
-const { IVT6, augmentedIVT6 } = require('./devices/ivt6')
+const { EVT1, xEVT1 } = require('./devices/evt1')
+const { EVT2, xEVT2 } = require('./devices/evt2')
+const { EVT3, xEVT3 } = require('./devices/evt3')
+const { IVT4, xIVT4 } = require('./devices/ivt4')
+const { IVT5, xIVT5 } = require('./devices/ivt5')
+const { IVT6, xIVT6 } = require('./devices/ivt6')
 
 exports.overview = {
   devices: [EVT1, EVT2, EVT3, IVT4, IVT5, IVT6],
@@ -455,14 +455,7 @@ exports.overview = {
   }
 }
 
-exports.diagnostic = [
-  augmentedEVT1,
-  augmentedEVT2,
-  augmentedEVT3,
-  augmentedIVT4,
-  augmentedIVT5,
-  augmentedIVT6
-]
+exports.diagnostic = [xEVT1, xEVT2, xEVT3, xIVT4, xIVT5, xIVT6]
 
 /*
  * Map

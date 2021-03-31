@@ -79,6 +79,22 @@ const FTCR = inputs.find(b => b.addr === 'E611.4')
 
 const TCR = outputs.find(b => b.addr === 'A611.7')
 
+const SIL_IO = [
+  inputs.find(b => b.addr === 'E612.0'),
+  inputs.find(b => b.addr === 'E612.1'),
+  inputs.find(b => b.addr === 'E612.2'),
+  inputs.find(b => b.addr === 'E612.3'),
+  inputs.find(b => b.addr === 'E612.4'),
+  inputs.find(b => b.addr === 'E612.5'),
+  inputs.find(b => b.addr === 'E612.6'),
+  inputs.find(b => b.addr === 'E612.7'),
+  outputs.find(b => b.addr === 'A601.1'), // T2
+  outputs.find(b => b.addr === 'A611.2'), // TRA
+  outputs.find(b => b.addr === 'A611.3'), // TRB
+  outputs.find(b => b.addr === 'A611.4'), // KCS
+  outputs.find(b => b.addr === 'A611.5'), // KCV
+  outputs.find(b => b.addr === 'A611.6') // KCH
+]
 const SIL = new Silomat(
   'motor-silomat',
   motors.find(b => b.label === 'SIL-ENB-T3'),
@@ -87,26 +103,11 @@ const SIL = new Silomat(
   IV2,
   [IV2EN, FTCR],
   [TCR],
-  [
-    inputs.find(b => b.addr === 'E612.0'),
-    inputs.find(b => b.addr === 'E612.1'),
-    inputs.find(b => b.addr === 'E612.2'),
-    inputs.find(b => b.addr === 'E612.3'),
-    inputs.find(b => b.addr === 'E612.4'),
-    inputs.find(b => b.addr === 'E612.5'),
-    inputs.find(b => b.addr === 'E612.6'),
-    inputs.find(b => b.addr === 'E612.7'),
-    outputs.find(b => b.addr === 'A601.1'), // T2
-    outputs.find(b => b.addr === 'A611.2'), // TRA
-    outputs.find(b => b.addr === 'A611.3'), // TRB
-    outputs.find(b => b.addr === 'A611.4'), // KCS
-    outputs.find(b => b.addr === 'A611.5'), // KCV
-    outputs.find(b => b.addr === 'A611.6') // KCH
-  ],
+  SIL_IO,
   ...[AF7, AKKP, AGF, MTC, FTCR]
 )
 
-const T = {
+const T3 = {
   a: devices[2],
   b: positions.slice(8, 12),
   c: [
@@ -118,10 +119,15 @@ const T = {
     merkers.find(b => b.addr === 'M2.6')
   ],
   d: [],
-  e: SIL,
-  f: [],
-  g: [M1, M2],
-  h: [IV1, IV2]
+  e: SIL
 }
 
-exports.T3 = T
+const xT3 = {
+  ...T3,
+  f: [],
+  g: [M1, M2],
+  h: [IV1, IV2],
+  i: SIL
+}
+
+module.exports = { T3, xT3 }

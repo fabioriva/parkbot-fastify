@@ -79,6 +79,22 @@ const FTCR = inputs.find(b => b.addr === 'E411.4')
 
 const TCR = outputs.find(b => b.addr === 'A411.7')
 
+const SIL_IO = [
+  inputs.find(b => b.addr === 'E412.0'),
+  inputs.find(b => b.addr === 'E412.1'),
+  inputs.find(b => b.addr === 'E412.2'),
+  inputs.find(b => b.addr === 'E412.3'),
+  inputs.find(b => b.addr === 'E412.4'),
+  inputs.find(b => b.addr === 'E412.5'),
+  inputs.find(b => b.addr === 'E412.6'),
+  inputs.find(b => b.addr === 'E412.7'),
+  outputs.find(b => b.addr === 'A401.1'), // T2
+  outputs.find(b => b.addr === 'A411.2'), // TRA
+  outputs.find(b => b.addr === 'A411.3'), // TRB
+  outputs.find(b => b.addr === 'A411.4'), // KCS
+  outputs.find(b => b.addr === 'A411.5'), // KCV
+  outputs.find(b => b.addr === 'A411.6') // KCH
+]
 const SIL = new Silomat(
   'motor-silomat',
   motors.find(b => b.label === 'SIL-ENB-T1'),
@@ -87,26 +103,11 @@ const SIL = new Silomat(
   IV2,
   [IV2EN, FTCR],
   [TCR],
-  [
-    inputs.find(b => b.addr === 'E412.0'),
-    inputs.find(b => b.addr === 'E412.1'),
-    inputs.find(b => b.addr === 'E412.2'),
-    inputs.find(b => b.addr === 'E412.3'),
-    inputs.find(b => b.addr === 'E412.4'),
-    inputs.find(b => b.addr === 'E412.5'),
-    inputs.find(b => b.addr === 'E412.6'),
-    inputs.find(b => b.addr === 'E412.7'),
-    outputs.find(b => b.addr === 'A401.1'), // T2
-    outputs.find(b => b.addr === 'A411.2'), // TRA
-    outputs.find(b => b.addr === 'A411.3'), // TRB
-    outputs.find(b => b.addr === 'A411.4'), // KCS
-    outputs.find(b => b.addr === 'A411.5'), // KCV
-    outputs.find(b => b.addr === 'A411.6') // KCH
-  ],
+  SIL_IO,
   ...[AF7, AKKP, AGF, MTC, FTCR]
 )
 
-const T = {
+const T1 = {
   a: devices[0],
   b: positions.slice(0, 4),
   c: [
@@ -118,10 +119,15 @@ const T = {
     merkers.find(b => b.addr === 'M2.2')
   ],
   d: [],
-  e: SIL,
-  f: [],
-  g: [M1, M2],
-  h: [IV1, IV2]
+  e: SIL_IO
 }
 
-exports.T1 = T
+const xT1 = {
+  ...T1,
+  f: [],
+  g: [M1, M2],
+  h: [IV1, IV2],
+  i: SIL
+}
+
+module.exports = { T1, xT1 }

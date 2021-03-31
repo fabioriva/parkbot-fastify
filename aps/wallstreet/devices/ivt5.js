@@ -149,7 +149,7 @@ const IVT5 = {
   e: SIL_IO
 }
 
-const augmentedIVT5 = {
+const xIVT5 = {
   ...IVT5,
   f: [M2],
   g: [M1, M3],
@@ -157,4 +157,4 @@ const augmentedIVT5 = {
   i: SIL
 }
 
-module.exports = { IVT5, augmentedIVT5 }
+module.exports = { IVT5, xIVT5 }

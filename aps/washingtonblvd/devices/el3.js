@@ -161,7 +161,7 @@ const M3 = new Rotation(
 /**
  * Device
  */
-const EL = {
+const EL3 = {
   a: devices[5],
   b: positions.slice(16, 18),
   c: [
@@ -173,10 +173,14 @@ const EL = {
     merkers.find(b => b.addr === 'M2.0')
   ],
   d: [],
-  // e: [],
+  e: []
+}
+
+const xEL3 = {
+  ...EL3,
   f: [M2, M4, M5, M6],
   g: [M1, M3],
   h: [IV]
 }
 
-exports.EL3 = EL
+module.exports = { EL3, xEL3 }
