@@ -27,14 +27,20 @@ const STALLS = 276
 const STALL_LEN = 10
 exports.STALLS = STALLS
 exports.STALL_LEN = STALL_LEN
-exports.StallStatus = {
-  FREE: 0,
-  PAPA: 997, // 65533
-  RSVD: 998, // 65534
-  LOCK: 999 // 65535
+
+exports.APS_DEF = {
+  cards: CARDS,
+  stalls: STALLS,
+  stallStatus: {
+    FREE: 0,
+    PAPA: 997,
+    RSVD: 998,
+    LOCK: 999
+  }
 }
 
 const DB_DATA = 506
+const DB_DATA_LEN = 508
 exports.DB_DATA_INIT_DEVICE = 32
 exports.DB_DATA_INIT_DRIVE = 128
 exports.DB_DATA_INIT_POS = 248
@@ -56,7 +62,7 @@ exports.DATA_READ = {
   area: 0x84,
   dbNumber: DB_DATA,
   start: 0,
-  amount: 508,
+  amount: DB_DATA_LEN,
   wordLen: 0x02
 }
 exports.MAP_READ = {

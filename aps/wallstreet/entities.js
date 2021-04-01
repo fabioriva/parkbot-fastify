@@ -32,11 +32,11 @@ const group5 = new AlarmGroup([], 'IVT2')
 const group6 = new AlarmGroup([], 'IVT3')
 for (let i = 0; i < 64; i++) {
   group1.alarms.push(new Alarm(i + 1, 1, false, texts.alarms1[i].label))
-  group2.alarms.push(new Alarm(i + 1, 2, false, texts.alarms1[i].label)) // !!! add alarms texts.js
-  group3.alarms.push(new Alarm(i + 1, 3, false, texts.alarms1[i].label))
-  group4.alarms.push(new Alarm(i + 1, 4, false, texts.alarms1[i].label))
-  group5.alarms.push(new Alarm(i + 1, 5, false, texts.alarms1[i].label))
-  group6.alarms.push(new Alarm(i + 1, 6, false, texts.alarms1[i].label))
+  group2.alarms.push(new Alarm(i + 1, 2, false, texts.alarms2[i].label)) // !!! add alarms texts.js
+  group3.alarms.push(new Alarm(i + 1, 3, false, texts.alarms3[i].label))
+  group4.alarms.push(new Alarm(i + 1, 4, false, texts.alarms4[i].label))
+  group5.alarms.push(new Alarm(i + 1, 5, false, texts.alarms5[i].label))
+  group6.alarms.push(new Alarm(i + 1, 6, false, texts.alarms6[i].label))
 }
 exports.groups = [group1, group2, group3, group4, group5, group6]
 
@@ -444,6 +444,7 @@ const { IVT5, xIVT5 } = require('./devices/ivt5')
 const { IVT6, xIVT6 } = require('./devices/ivt6')
 
 exports.overview = {
+  definitions: s7def.APS_DEF,
   devices: [EVT1, EVT2, EVT3, IVT4, IVT5, IVT6],
   exitQueue: {
     queueList: exitQueue,
@@ -480,12 +481,13 @@ const TYPE_0 = [
 ]
 
 exports.map = {
-  limits: {
-    minCard: 1,
-    maxCard: s7def.CARDS,
-    minStall: 1,
-    maxStall: s7def.STALLS
-  },
+  definitions: s7def.APS_DEF,
+  // limits: {
+  //   minCard: 1,
+  //   maxCard: s7def.CARDS,
+  //   minStall: 1,
+  //   maxStall: s7def.STALLS
+  // },
   statistics: [TYPE_0],
   levels: [
     {

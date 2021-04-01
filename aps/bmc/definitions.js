@@ -1,29 +1,29 @@
-exports.APS = 'washingtonblvd'
-exports.TZ = 'America/Los_Angeles'
-exports.HTTP = 8092
-exports.PORT = 49012
+exports.APS = 'bmc'
+exports.TZ = 'Asia/Kolkata'
+exports.HTTP = 8095
+exports.PORT = 49015
 exports.HOST =
   process.env.NODE_ENV !== 'production'
     ? process.env.DEVELOPMENT_SERVER
     : process.env.PRODUCTION_SERVER
 exports.PLC = {
-  ip: '192.168.61.2',
+  ip: '192.168.69.2',
   rack: 0,
   slot: 1,
-  polling_time: 300
+  polling_time: 500
 }
 
 exports.DEVICES = 6
-exports.DRIVES = 9
-exports.POSITIONS = 18
+exports.DRIVES = 4
+exports.POSITIONS = 12
 exports.QUEUE = 5
 
-const CARDS = 212
+const CARDS = 240
 const CARD_LEN = 10
 exports.CARDS = CARDS
 exports.CARD_LEN = CARD_LEN
 
-const STALLS = 213
+const STALLS = 240
 const STALL_LEN = 10
 exports.STALLS = STALLS
 exports.STALL_LEN = STALL_LEN
@@ -40,17 +40,16 @@ exports.APS_DEF = {
 }
 
 const DB_DATA = 505
-const DB_DATA_LEN = 434
+const DB_DATA_LEN = 332
 exports.DB_DATA_INIT_DEVICE = 32
 exports.DB_DATA_INIT_DRIVE = 128
-exports.DB_DATA_INIT_POS = 218
-exports.DB_DATA_INIT_QUEUE = 290
-exports.DB_DATA_INIT_AB = 310
-exports.DB_DATA_INIT_EB = 350
-exports.DB_DATA_INIT_MB = 402
-exports.DB_DATA_INIT_PN = 410
-exports.DB_DATA_INIT_MOTORS = 418
-// exports.DB_DATA_LEN = 434
+exports.DB_DATA_INIT_POS = 168
+exports.DB_DATA_INIT_QUEUE = 216
+exports.DB_DATA_INIT_AB = 236
+exports.DB_DATA_INIT_EB = 266
+exports.DB_DATA_INIT_MB = 300
+exports.DB_DATA_INIT_PN = 308
+exports.DB_DATA_INIT_MOTORS = 316
 
 const ALARM_LEN = 8
 exports.ALARM_LEN = ALARM_LEN
@@ -75,7 +74,7 @@ exports.MAP_READ = {
 exports.MAP_EDIT = {
   area: 0x84,
   dbNumber: DB_DATA,
-  start: 446,
+  start: 280,
   amount: 4,
   wordLen: 0x02
 }
@@ -89,28 +88,21 @@ exports.CARD_READ = {
 exports.CARD_EDIT = {
   area: 0x84,
   dbNumber: DB_DATA,
-  start: 450,
+  start: 284,
   amount: 4,
   wordLen: 0x02
 }
 exports.QUEUE_DELETE = {
   area: 0x84,
   dbNumber: DB_DATA,
-  start: 454,
+  start: 288,
   amount: 4,
   wordLen: 0x02
 }
 exports.REQ_0 = {
   area: 0x84,
   dbNumber: DB_DATA,
-  start: 458,
+  start: 292,
   amount: 2,
   wordLen: 0x02
 }
-
-/**
- * Monitor service
- */
-exports.DB_MONITOR = 828
-exports.DB_MONITOR_INIT = 0
-exports.DB_MONITOR_LEN = 30
