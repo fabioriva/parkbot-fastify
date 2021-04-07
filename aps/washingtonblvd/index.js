@@ -19,7 +19,12 @@ const start = async () => {
     plc01.broadcast = wss.broadcast
     plc01.main(s7def, s7obj)
     log(db, plc01, s7def, s7obj)
-    fastify.register(require('fastify-cors'), { origin: '*' })
+    fastify.register(require('fastify-cors'), {
+      origin: '*',
+      allowedHeaders:
+        '*, Accept, Content-Type, Content-Length, Accept-Encoding',
+      methods: 'GET,POST'
+    })
     fastify.register(require('fastify-mongodb'), { client })
     fastify.register(require('../../lib/routes'), {
       prefix: '/aps/washingtonblvd',
