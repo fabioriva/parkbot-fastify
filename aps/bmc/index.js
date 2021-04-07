@@ -23,6 +23,7 @@ const start = async () => {
       origin: 'https://parkbot.vercel.app',
       allowedHeaders:
         '*, Accept, Content-Type, Content-Length, Accept-Encoding',
+      credentials: true,
       methods: 'GET,POST'
     })
     fastify.register(require('fastify-mongodb'), { client })
