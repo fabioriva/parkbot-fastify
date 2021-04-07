@@ -108,7 +108,7 @@ const SIL = new Silomat(
 )
 
 const T3 = {
-  a: devices[2],
+  a: devices[5],
   b: positions.slice(8, 12),
   c: [
     inputs.find(b => b.addr === 'E601.3'),
@@ -119,7 +119,7 @@ const T3 = {
     merkers.find(b => b.addr === 'M2.6')
   ],
   d: [],
-  e: SIL
+  e: SIL_IO
 }
 
 const xT3 = {

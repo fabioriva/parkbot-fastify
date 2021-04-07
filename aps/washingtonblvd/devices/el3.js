@@ -162,7 +162,7 @@ const M3 = new Rotation(
  * Device
  */
 const EL3 = {
-  a: devices[5],
+  a: devices[2],
   b: positions.slice(16, 18),
   c: [
     inputs.find(b => b.addr === 'E303.3'),

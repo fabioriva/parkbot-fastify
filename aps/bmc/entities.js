@@ -119,7 +119,7 @@ const rack1 = {
   nr: 1,
   serie: 'et200m',
   title: 'Main',
-  cards: [new S7_523_1BL00_0AA0(1, EB.slice(0, 1).concat(AB.slice(0, 1)))]
+  cards: [new S7_523_1BL00_0AA0(1, [...EB.slice(0, 2), ...AB.slice(0, 2)])]
 }
 
 const rack2 = {
@@ -127,13 +127,13 @@ const rack2 = {
   serie: 'et200s',
   title: 'KKE1',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(1, 3)),
-    new S7_131_6BH01_0BA0(1, EB.slice(3, 5)),
-    new S7_131_6BH01_0BA0(1, EB.slice(5, 7)),
-    new S7_131_6BH01_0BA0(1, EB.slice(7, 9)),
-    new S7_132_6BH01_0BA0(4, AB.slice(1, 3)),
-    new S7_132_6BH01_0BA0(4, AB.slice(3, 5)),
-    new S7_132_6BH01_0BA0(4, AB.slice(5, 7))
+    new S7_131_6BH01_0BA0(1, EB.slice(2, 4)),
+    new S7_131_6BH01_0BA0(2, EB.slice(4, 6)),
+    new S7_131_6BH01_0BA0(3, EB.slice(6, 8)),
+    new S7_131_6BH01_0BA0(4, EB.slice(8, 10)),
+    new S7_132_6BH01_0BA0(5, AB.slice(2, 4)),
+    new S7_132_6BH01_0BA0(6, AB.slice(4, 6)),
+    new S7_132_6BH01_0BA0(7, AB.slice(6, 8))
   ]
 }
 
@@ -142,8 +142,8 @@ const rack3 = {
   serie: 'et200s',
   title: 'LS1',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(9, 11)),
-    new S7_132_6BH01_0BA0(4, AB.slice(7, 9))
+    new S7_131_6BH01_0BA0(1, EB.slice(10, 12)),
+    new S7_132_6BH01_0BA0(2, AB.slice(8, 10))
   ]
 }
 
@@ -152,8 +152,8 @@ const rack4 = {
   serie: 'et200s',
   title: 'KKP1',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(11, 13)),
-    new S7_132_6BH01_0BA0(4, AB.slice(9, 11))
+    new S7_131_6BH01_0BA0(1, EB.slice(12, 14)),
+    new S7_132_6BH01_0BA0(2, AB.slice(10, 12))
   ]
 }
 
@@ -162,10 +162,10 @@ const rack5 = {
   serie: 'et200s',
   title: 'SH1',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(13, 15)),
-    new S7_131_6BH01_0BA0(1, EB.slice(15, 17)),
-    new S7_132_6BH01_0BA0(4, AB.slice(11, 13)),
-    new S7_132_6BH01_0BA0(4, AB.slice(13, 15))
+    new S7_131_6BH01_0BA0(1, EB.slice(14, 16)),
+    new S7_131_6BH01_0BA0(2, EB.slice(16, 18)),
+    new S7_132_6BH01_0BA0(3, AB.slice(12, 14)),
+    new S7_132_6BH01_0BA0(4, AB.slice(14, 16))
   ]
 }
 
@@ -174,13 +174,13 @@ const rack6 = {
   serie: 'et200s',
   title: 'KKE2',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(17, 19)),
-    new S7_131_6BH01_0BA0(1, EB.slice(19, 21)),
-    new S7_131_6BH01_0BA0(1, EB.slice(21, 23)),
-    new S7_131_6BH01_0BA0(1, EB.slice(23, 25)),
-    new S7_132_6BH01_0BA0(4, AB.slice(15, 17)),
-    new S7_132_6BH01_0BA0(4, AB.slice(17, 19)),
-    new S7_132_6BH01_0BA0(4, AB.slice(19, 21))
+    new S7_131_6BH01_0BA0(1, EB.slice(18, 20)),
+    new S7_131_6BH01_0BA0(2, EB.slice(20, 22)),
+    new S7_131_6BH01_0BA0(3, EB.slice(22, 24)),
+    new S7_131_6BH01_0BA0(4, EB.slice(24, 26)),
+    new S7_132_6BH01_0BA0(5, AB.slice(16, 18)),
+    new S7_132_6BH01_0BA0(6, AB.slice(18, 20)),
+    new S7_132_6BH01_0BA0(7, AB.slice(20, 22))
   ]
 }
 
@@ -189,8 +189,8 @@ const rack7 = {
   serie: 'et200s',
   title: 'LS2',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(25, 27)),
-    new S7_132_6BH01_0BA0(4, AB.slice(21, 23))
+    new S7_131_6BH01_0BA0(1, EB.slice(26, 28)),
+    new S7_132_6BH01_0BA0(2, AB.slice(22, 24))
   ]
 }
 
@@ -199,8 +199,8 @@ const rack8 = {
   serie: 'et200s',
   title: 'KKP2',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(27, 29)),
-    new S7_132_6BH01_0BA0(4, AB.slice(23, 25))
+    new S7_131_6BH01_0BA0(1, EB.slice(28, 30)),
+    new S7_132_6BH01_0BA0(2, AB.slice(24, 26))
   ]
 }
 
@@ -209,10 +209,10 @@ const rack9 = {
   serie: 'et200s',
   title: 'SH2',
   cards: [
-    new S7_131_6BH01_0BA0(1, EB.slice(29, 31)),
-    new S7_131_6BH01_0BA0(1, EB.slice(31, 33)),
-    new S7_132_6BH01_0BA0(4, AB.slice(25, 27)),
-    new S7_132_6BH01_0BA0(4, AB.slice(27, 29))
+    new S7_131_6BH01_0BA0(1, EB.slice(30, 32)),
+    new S7_131_6BH01_0BA0(2, EB.slice(32, 34)),
+    new S7_132_6BH01_0BA0(3, AB.slice(26, 28)),
+    new S7_132_6BH01_0BA0(4, AB.slice(28, 30))
   ]
 }
 

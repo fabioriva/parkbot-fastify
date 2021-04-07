@@ -1,4 +1,4 @@
-exports.devices = ['T1', 'T2', 'T3', 'EL1', 'EL2', 'EL3']
+exports.devices = ['EL1', 'EL2', 'EL3', 'T1', 'T2', 'T3']
 
 exports.garages = ['VG1', 'VG2', 'VG3']
 

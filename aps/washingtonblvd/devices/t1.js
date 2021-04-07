@@ -108,7 +108,7 @@ const SIL = new Silomat(
 )
 
 const T1 = {
-  a: devices[0],
+  a: devices[3],
   b: positions.slice(0, 4),
   c: [
     inputs.find(b => b.addr === 'E401.3'),

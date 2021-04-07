@@ -322,12 +322,12 @@ exports.drives = drives
 /**
  * Devices
  */
-const { T1, xT1 } = require('./devices/t1')
-const { T2, xT2 } = require('./devices/t2')
-const { T3, xT3 } = require('./devices/t3')
 const { EL1, xEL1 } = require('./devices/el1')
 const { EL2, xEL2 } = require('./devices/el2')
 const { EL3, xEL3 } = require('./devices/el3')
+const { T1, xT1 } = require('./devices/t1')
+const { T2, xT2 } = require('./devices/t2')
+const { T3, xT3 } = require('./devices/t3')
 
 exports.overview = {
   definitions: s7def.APS_DEF,
