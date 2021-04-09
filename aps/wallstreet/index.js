@@ -15,11 +15,10 @@ const start = async () => {
     })
     const db = client.db('wallstreet')
     const wss = websocket('/ws/wallstreet', fastify)
-    const plc01 = new PLC(s7def.PLC)
-    plc01.broadcast = wss.broadcast
+    const plc01 = new PLC(s7def.PLC, wss)
     plc01.main(s7def, s7obj)
     log(db, plc01, s7def, s7obj)
-    fastify.register(require('fastify-cors'), { origin: '*' })
+    fastify.register(require('fastify-cors'), { origin: 'parkbot.vercel.app' })
     fastify.register(require('fastify-mongodb'), { client })
     fastify.register(require('../../lib/routes'), {
       prefix: '/aps/wallstreet',
