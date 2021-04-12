@@ -18,13 +18,13 @@ const start = async () => {
     const plc01 = new PLC(s7def.PLC, wss)
     plc01.main(s7def, s7obj)
     log(db, plc01, s7def, s7obj)
-    // fastify.register(require('fastify-cors'), {
-    //   origin: '*',
-    //   allowedHeaders:
-    //     '*, Accept, Content-Type, Content-Length, Accept-Encoding',
-    //   credentials: true,
-    //   methods: 'GET,PUT,POST'
-    // })
+    fastify.register(require('fastify-cors'), {
+      origin: 'https://parkbot.vercel.app'
+      // allowedHeaders:
+      //   '*, Accept, Content-Type, Content-Length, Accept-Encoding',
+      // credentials: true,
+      // methods: 'GET,PUT,POST'
+    })
     fastify.register(require('fastify-mongodb'), { client })
     fastify.register(require('../../lib/routes'), {
       prefix: '/aps/washingtonblvd',

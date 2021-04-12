@@ -18,7 +18,9 @@ const start = async () => {
     const plc01 = new PLC(s7def.PLC, wss)
     plc01.main(s7def, s7obj)
     log(db, plc01, s7def, s7obj)
-    fastify.register(require('fastify-cors'), { origin: 'parkbot.vercel.app' })
+    fastify.register(require('fastify-cors'), {
+      origin: 'https://parkbot.vercel.app'
+    })
     fastify.register(require('fastify-mongodb'), { client })
     fastify.register(require('../../lib/routes'), {
       prefix: '/aps/wallstreet',
