@@ -57,7 +57,10 @@ generateAlarms('U2', 0, 64, 'alarms6')
 function generateAlarms (group, min, max, name) {
   fs.appendFileSync(FILE, `exports.${name} = [\r\n`)
   for (let a = min; a < max; a++) {
-    fs.appendFileSync(FILE, `  { class: '${group}', label: 'AL${a + 1}' },\r\n`)
+    fs.appendFileSync(
+      FILE,
+      `  { class: '${group}', label: 'AL${a + 1}', info: '' },\r\n`
+    )
   }
   fs.appendFileSync(FILE, ']\r\n')
 }
