@@ -32,19 +32,19 @@ for (let i = 0; i < 64; i++) {
     new Alarm(i + 1, 1, false, texts.alarms1[i].label, texts.alarms1[i].info)
   )
   group2.alarms.push(
-    new Alarm(i + 1, 2, false, texts.alarms2[i].label, texts.alarms1[i].info)
+    new Alarm(i + 1, 2, false, texts.alarms2[i].label, texts.alarms2[i].info)
   )
   group3.alarms.push(
-    new Alarm(i + 1, 3, false, texts.alarms3[i].label, texts.alarms1[i].info)
+    new Alarm(i + 1, 3, false, texts.alarms3[i].label, texts.alarms3[i].info)
   )
   group4.alarms.push(
-    new Alarm(i + 1, 4, false, texts.alarms4[i].label, texts.alarms1[i].info)
+    new Alarm(i + 1, 4, false, texts.alarms4[i].label, texts.alarms4[i].info)
   )
   group5.alarms.push(
-    new Alarm(i + 1, 5, false, texts.alarms5[i].label, texts.alarms1[i].info)
+    new Alarm(i + 1, 5, false, texts.alarms5[i].label, texts.alarms5[i].info)
   )
   group6.alarms.push(
-    new Alarm(i + 1, 6, false, texts.alarms6[i].label, texts.alarms1[i].info)
+    new Alarm(i + 1, 6, false, texts.alarms6[i].label, texts.alarms6[i].info)
   )
 }
 exports.groups = [group1, group2, group3, group4, group5, group6]
