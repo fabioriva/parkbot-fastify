@@ -16,3 +16,24 @@ function generateBits (type, min, max, name) {
   }
   fs.appendFileSync(FILE, ']\r\n')
 }
+
+/**
+ * Alarms text
+ */
+generateAlarms('EVT1', 0, 64, 'alarms1')
+generateAlarms('EVT2', 0, 64, 'alarms2')
+generateAlarms('EVT3', 0, 64, 'alarms3')
+generateAlarms('IVT1', 0, 64, 'alarms4')
+generateAlarms('IVT2', 0, 64, 'alarms5')
+generateAlarms('IVT3', 0, 64, 'alarms6')
+
+function generateAlarms (group, min, max, name) {
+  fs.appendFileSync(FILE, `exports.${name} = [\r\n`)
+  for (let a = min; a < max; a++) {
+    fs.appendFileSync(
+      FILE,
+      `  { class: '${group}', label: 'AL${a + 1}', info: '' },\r\n`
+    )
+  }
+  fs.appendFileSync(FILE, ']\r\n')
+}

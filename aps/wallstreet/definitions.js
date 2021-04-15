@@ -55,7 +55,7 @@ exports.DB_DATA_INIT_MOTORS = 490
 const ALARM_LEN = 8
 exports.ALARM_LEN = 8
 exports.DB_ALARM_INIT = 4
-exports.DB_ALARM_LEN = 16 * ALARM_LEN * 4
+exports.DB_ALARM_LEN = 64 * ALARM_LEN
 exports.DBS_ALARM = [531, 532, 533, 534, 535, 536]
 
 exports.DATA_READ = {
