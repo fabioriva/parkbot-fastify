@@ -10,7 +10,7 @@ exports.PLC = {
   ip: '192.168.200.55',
   rack: 0,
   slot: 1,
-  polling_time: 999
+  polling_time: 500
 }
 
 exports.DEVICES = 6

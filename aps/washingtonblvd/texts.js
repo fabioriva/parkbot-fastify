@@ -8,7 +8,7 @@ exports.modes = [
   'mode-data-read',
   'mode-eme-1',
   'mode-eme-2',
-  'mode-not-used',
+  'mode-no-func',
   'mode-step',
   'mode-preset',
   'mode-auto'

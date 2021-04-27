@@ -17,6 +17,10 @@ const {
 } = require('../../../models/motors')
 const Action = require('../../../models/action')
 
+// const { generateAlarms } = require('../../../models/alarm')
+// // const { alarms1 } = require('../texts')
+// console.log(generateAlarms(1, 1, 64, require('../texts').alarms1))
+
 /**
  * VFDs
  */

@@ -32,7 +32,8 @@ function generateAlarms (group, min, max, name) {
   for (let a = min; a < max; a++) {
     fs.appendFileSync(
       FILE,
-      `  { class: '${group}', label: 'AL${a + 1}', info: '' },\r\n`
+      `  { class: '${group}', label: 'AL${a +
+        1}', i18n: { key: '', query: {} } },\r\n`
     )
   }
   fs.appendFileSync(FILE, ']\r\n')

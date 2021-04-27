@@ -1,6 +1,6 @@
 const s7def = require('./definitions')
 const texts = require('./texts')
-const { Alarm, AlarmGroup } = require('../../models/alarm')
+const { Alarm, AlarmGroup, generateAlarms } = require('../../models/alarm')
 const { generateBits, generateBytes } = require('../../models/plcIo')
 const {
   S7_521_1BL00_0AB0,
@@ -24,34 +24,15 @@ const Vfd = require('../../models/vfd')
  * Alarms.
  */
 
-const group1 = new AlarmGroup([], 'EVT1')
-const group2 = new AlarmGroup([], 'EVT2')
-const group3 = new AlarmGroup([], 'EVT3')
-const group4 = new AlarmGroup([], 'IVT1')
-const group5 = new AlarmGroup([], 'IVT2')
-const group6 = new AlarmGroup([], 'IVT3')
-for (let i = 0; i < 64; i++) {
-  group1.alarms.push(
-    new Alarm(i + 1, 1, false, texts.alarms1[i].label, texts.alarms1[i].info)
-  )
-  group2.alarms.push(
-    new Alarm(i + 1, 2, false, texts.alarms2[i].label, texts.alarms2[i].info)
-  )
-  group3.alarms.push(
-    new Alarm(i + 1, 3, false, texts.alarms3[i].label, texts.alarms3[i].info)
-  )
-  group4.alarms.push(
-    new Alarm(i + 1, 4, false, texts.alarms4[i].label, texts.alarms4[i].info)
-  )
-  group5.alarms.push(
-    new Alarm(i + 1, 5, false, texts.alarms5[i].label, texts.alarms5[i].info)
-  )
-  group6.alarms.push(
-    new Alarm(i + 1, 6, false, texts.alarms6[i].label, texts.alarms6[i].info)
-  )
-}
-exports.groups = [group1, group2, group3, group4, group5, group6]
-console.log(group1)
+// const group1 = new AlarmGroup(generateAlarms(1, 1, 64, texts.alarms1), 'EVT1')
+// const group2 = new AlarmGroup(generateAlarms(2, 1, 64, texts.alarms2), 'EVT2')
+// const group3 = new AlarmGroup(generateAlarms(3, 1, 64, texts.alarms3), 'EVT3')
+// const group4 = new AlarmGroup(generateAlarms(4, 1, 64, texts.alarms4), 'IVT1')
+// const group5 = new AlarmGroup(generateAlarms(5, 1, 64, texts.alarms5), 'IVT2')
+// const group6 = new AlarmGroup(generateAlarms(6, 1, 64, texts.alarms6), 'IVT3')
+
+// exports.groups = [group1, group2, group3, group4, group5, group6]
+
 /*
  * Cards
  */
@@ -111,6 +92,8 @@ exports.inputs = inputs
 const EB = generateBytes(inputs)
 exports.EB = EB
 
+console.log(EB[0])
+
 const outputs1 = generateBits('A', 0, 5, texts.outputs1)
 const outputs2 = generateBits('A', 100, 103, texts.outputs2)
 const outputs3 = generateBits('A', 110, 111, texts.outputs3)
@@ -167,12 +150,26 @@ exports.PN = PN
 /**
  * Motors
  */
-
 const motors = generateBits('M', 0, 16, texts.motors)
 exports.motors = motors
 
 const MT = generateBytes(motors)
 exports.MT = MT
+
+/**
+ * Alarms.
+ */
+const group1 = new AlarmGroup(generateAlarms(1, 1, 64, texts.alarms1), 'EVT1')
+const group2 = new AlarmGroup(generateAlarms(2, 1, 64, texts.alarms2), 'EVT2')
+const group3 = new AlarmGroup(generateAlarms(3, 1, 64, texts.alarms3), 'EVT3')
+const group4 = new AlarmGroup(generateAlarms(4, 1, 64, texts.alarms4), 'IVT1')
+const group5 = new AlarmGroup(generateAlarms(5, 1, 64, texts.alarms5), 'IVT2')
+const group6 = new AlarmGroup(generateAlarms(6, 1, 64, texts.alarms6), 'IVT3')
+
+exports.groups = [group1, group2, group3, group4, group5, group6]
+
+console.log(group1.alarms.slice(47, 48)[0])
+// console.log(group2.alarms.slice(0, 4))
 
 /**
  * Racks
