@@ -1,6 +1,6 @@
 const s7def = require('./definitions')
 const texts = require('./texts')
-const { Alarm, AlarmGroup } = require('../../models/alarm')
+const { AlarmGroup, generateAlarms } = require('../../models/alarm')
 const { generateBits, generateBytes } = require('../../models/plcIo')
 const {
   S7_521_1BL00_0AB0,
@@ -21,33 +21,13 @@ const Vfd = require('../../models/vfd')
 /**
  * Alarms.
  */
+const group1 = new AlarmGroup(generateAlarms(1, 1, 64, texts.alarms1), 'EL1')
+const group2 = new AlarmGroup(generateAlarms(2, 1, 64, texts.alarms2), 'EL2')
+const group3 = new AlarmGroup(generateAlarms(3, 1, 64, texts.alarms3), 'EL3')
+const group4 = new AlarmGroup(generateAlarms(4, 1, 64, texts.alarms4), 'T1')
+const group5 = new AlarmGroup(generateAlarms(5, 1, 64, texts.alarms5), 'T2')
+const group6 = new AlarmGroup(generateAlarms(6, 1, 64, texts.alarms6), 'T3')
 
-const group1 = new AlarmGroup([], 'T1')
-const group2 = new AlarmGroup([], 'T2')
-const group3 = new AlarmGroup([], 'T3')
-const group4 = new AlarmGroup([], 'EL1')
-const group5 = new AlarmGroup([], 'EL2')
-const group6 = new AlarmGroup([], 'EL3')
-for (let i = 0; i < 64; i++) {
-  group1.alarms.push(
-    new Alarm(i + 1, 4, false, texts.alarms4[i].label, texts.alarms4[i].info)
-  )
-  group2.alarms.push(
-    new Alarm(i + 1, 5, false, texts.alarms5[i].label, texts.alarms5[i].info)
-  )
-  group3.alarms.push(
-    new Alarm(i + 1, 6, false, texts.alarms6[i].label, texts.alarms6[i].info)
-  )
-  group4.alarms.push(
-    new Alarm(i + 1, 1, false, texts.alarms1[i].label, texts.alarms1[i].info)
-  )
-  group5.alarms.push(
-    new Alarm(i + 1, 2, false, texts.alarms2[i].label, texts.alarms2[i].info)
-  )
-  group6.alarms.push(
-    new Alarm(i + 1, 3, false, texts.alarms3[i].label, texts.alarms3[i].info)
-  )
-}
 exports.groups = [group1, group2, group3, group4, group5, group6]
 
 /*

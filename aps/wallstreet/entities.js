@@ -1,6 +1,6 @@
 const s7def = require('./definitions')
 const texts = require('./texts')
-const { Alarm, AlarmGroup, generateAlarms } = require('../../models/alarm')
+const { AlarmGroup, generateAlarms } = require('../../models/alarm')
 const { generateBits, generateBytes } = require('../../models/plcIo')
 const {
   S7_521_1BL00_0AB0,
@@ -23,15 +23,14 @@ const Vfd = require('../../models/vfd')
 /**
  * Alarms.
  */
+const group1 = new AlarmGroup(generateAlarms(1, 1, 64, texts.alarms1), 'EVT1')
+const group2 = new AlarmGroup(generateAlarms(2, 1, 64, texts.alarms2), 'EVT2')
+const group3 = new AlarmGroup(generateAlarms(3, 1, 64, texts.alarms3), 'EVT3')
+const group4 = new AlarmGroup(generateAlarms(4, 1, 64, texts.alarms4), 'IVT1')
+const group5 = new AlarmGroup(generateAlarms(5, 1, 64, texts.alarms5), 'IVT2')
+const group6 = new AlarmGroup(generateAlarms(6, 1, 64, texts.alarms6), 'IVT3')
 
-// const group1 = new AlarmGroup(generateAlarms(1, 1, 64, texts.alarms1), 'EVT1')
-// const group2 = new AlarmGroup(generateAlarms(2, 1, 64, texts.alarms2), 'EVT2')
-// const group3 = new AlarmGroup(generateAlarms(3, 1, 64, texts.alarms3), 'EVT3')
-// const group4 = new AlarmGroup(generateAlarms(4, 1, 64, texts.alarms4), 'IVT1')
-// const group5 = new AlarmGroup(generateAlarms(5, 1, 64, texts.alarms5), 'IVT2')
-// const group6 = new AlarmGroup(generateAlarms(6, 1, 64, texts.alarms6), 'IVT3')
-
-// exports.groups = [group1, group2, group3, group4, group5, group6]
+exports.groups = [group1, group2, group3, group4, group5, group6]
 
 /*
  * Cards
@@ -91,8 +90,6 @@ exports.inputs = inputs
 
 const EB = generateBytes(inputs)
 exports.EB = EB
-
-console.log(EB[0])
 
 const outputs1 = generateBits('A', 0, 5, texts.outputs1)
 const outputs2 = generateBits('A', 100, 103, texts.outputs2)
@@ -155,21 +152,6 @@ exports.motors = motors
 
 const MT = generateBytes(motors)
 exports.MT = MT
-
-/**
- * Alarms.
- */
-const group1 = new AlarmGroup(generateAlarms(1, 1, 64, texts.alarms1), 'EVT1')
-const group2 = new AlarmGroup(generateAlarms(2, 1, 64, texts.alarms2), 'EVT2')
-const group3 = new AlarmGroup(generateAlarms(3, 1, 64, texts.alarms3), 'EVT3')
-const group4 = new AlarmGroup(generateAlarms(4, 1, 64, texts.alarms4), 'IVT1')
-const group5 = new AlarmGroup(generateAlarms(5, 1, 64, texts.alarms5), 'IVT2')
-const group6 = new AlarmGroup(generateAlarms(6, 1, 64, texts.alarms6), 'IVT3')
-
-exports.groups = [group1, group2, group3, group4, group5, group6]
-
-console.log(group1.alarms.slice(47, 48)[0])
-// console.log(group2.alarms.slice(0, 4))
 
 /**
  * Racks
