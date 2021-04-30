@@ -99,10 +99,9 @@ class S7_131_6BH01_0BA0 {
     this.nr = nr
     this.type = '131-6BH01-0BA0'
     // this.bytes = bytes
-    // this.bytes = [{ bits: bytes }]
     this.bytes = bytes.map(byte => ({
       bits: byte,
-      label: bytes[0].addr.slice(0, -2)
+      label: byte[0].addr.slice(0, -2)
     }))
   }
 }
@@ -113,10 +112,9 @@ class S7_132_6BH01_0BA0 {
     this.nr = nr
     this.type = '132-6BH01-0BA0'
     // this.bytes = bytes
-    // this.bytes = [{ bits: bytes }]
     this.bytes = bytes.map(byte => ({
       bits: byte,
-      label: bytes[0].addr.slice(0, -2)
+      label: byte[0].addr.slice(0, -2)
     }))
   }
 }
