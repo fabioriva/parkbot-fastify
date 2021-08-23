@@ -136,7 +136,7 @@ const SIL = new Silomat(
  */
 const IVT6 = {
   a: devices[5],
-  b: positions.slice(10, 14),
+  b: positions.slice(14, 18),
   c: [
     inputs.find(b => b.addr === 'E601.3'),
     outputs.find(b => b.addr === 'A600.7'),
